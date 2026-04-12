@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/windowBackground"
+    android:layout_margin="@dimen/activity_margin"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/dialog_recuperar_pass_ly_edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/DependenciaJudicialEditText"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/dialog_recuperar_pass_edt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dialog_recuperar_pass_str_email"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/dialog_recuperar_pass_btn_recuperar_cuenta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_recuperar_pass"
+        android:drawablePadding="-30dp"
+        android:drawableStart="@drawable/ic_action_recuperar_pass"
+        android:text="@string/dialog_recuperar_pass_str_recuperar"
+        android:textColor="@color/textColorPrimary"
+        android:theme="@style/DependenciaJudicialButton" />
+
+
+</LinearLayout>

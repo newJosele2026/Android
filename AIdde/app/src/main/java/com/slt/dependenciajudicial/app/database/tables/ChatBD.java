@@ -1,0 +1,105 @@
+package com.slt.dependenciajudicial.app.database.tables;
+
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.slt.dependenciajudicial.app.database.DependenciaJudicialDataBase;
+
+import java.util.Date;
+
+/**
+ * Created by Nelsy Acuña on 05/02/2018.
+ */
+
+@Table(database = DependenciaJudicialDataBase.class)
+public class ChatBD extends BaseModel {
+
+    @Column
+    @PrimaryKey
+    Integer iIDChat;
+
+    @Column
+    Boolean isMe;
+
+    @Column
+    String tMensaje;
+
+    @Column
+    Integer iIDDJSolicitud;
+
+    @Column
+    Integer iIDDJUsuario;
+
+    @Column
+    Integer iIDUsuario;
+
+    @Column
+    Date dtFechaMensaje;
+
+
+    //region Get and Set
+
+    public Integer getiIDChat() {
+        return iIDChat;
+    }
+
+    public void setiIDChat(Integer iIDChat) {
+        this.iIDChat = iIDChat;
+    }
+
+    public Boolean getMe() {
+        return isMe;
+    }
+
+    public void setMe(Boolean me) {
+        isMe = me;
+    }
+
+    public String gettMensaje() {
+        return tMensaje;
+    }
+
+    public void settMensaje(String tMensaje) {
+        this.tMensaje = tMensaje;
+    }
+
+    public Integer getiIDDJSolicitud() {
+        return iIDDJSolicitud;
+    }
+
+    public void setiIDDJSolicitud(Integer iIDDJSolicitud) {
+        this.iIDDJSolicitud = iIDDJSolicitud;
+    }
+
+    public Integer getiIDDJUsuario() {
+        return iIDDJUsuario;
+    }
+
+    public void setiIDDJUsuario(Integer iIDDJUsuario) {
+        this.iIDDJUsuario = iIDDJUsuario;
+    }
+
+    public Integer getiIDUsuario() {
+        return iIDUsuario;
+    }
+
+    public void setiIDUsuario(Integer iIDUsuario) {
+        this.iIDUsuario = iIDUsuario;
+    }
+
+    public Date getDtFechaMensaje() {
+        return dtFechaMensaje;
+    }
+
+    public void setDtFechaMensaje(Date dtFechaMensaje) {
+        this.dtFechaMensaje = dtFechaMensaje;
+    }
+
+    //endregion
+
+
+
+
+}
+

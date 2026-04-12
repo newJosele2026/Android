@@ -1,0 +1,335 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.slt.dependenciajudicial.views.fragments.FragmentPerfil">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/tool_bar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/fragment_perfil_nsv_container"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:padding="@dimen/activity_margin"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <!--  Titulo de Archivos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_perfil_str_titulo_archivos"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/general_dimen_font_size_titulo"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Separador -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fragment_perfil_dimen_divider_height"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:text="@string/fragment_perfil_str_archivos"
+                        android:textSize="@dimen/fragment_perfil_dimen_size_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/fragment_perfil_switch_movile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textOff="@string/fragment_perfil_switch_str_off"
+                        android:textOn="@string/fragment_perfil_switch_str_on" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <!-- Notificaciones -->
+
+            <!--  Titulo de Archivos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_perfil_str_titulo_notificacion"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/general_dimen_font_size_titulo"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Separador -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fragment_perfil_dimen_divider_height"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:text="@string/fragment_perfil_str_notificaciones"
+                        android:textSize="@dimen/fragment_perfil_dimen_size_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/fragment_perfil_switch_notificaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:textOff="@string/fragment_perfil_switch_str_off"
+                        android:textOn="@string/fragment_perfil_switch_str_on" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!-- -->
+
+            <!--  Titulo de general -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_perfil_str_titulo_general"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/general_dimen_font_size_titulo"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Separador -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fragment_perfil_dimen_divider_height"
+                android:layout_marginBottom="@dimen/fragment_perfil_dimen_divider_margin"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <!-- perfiles generales -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fragment_perfil_dimen_divider_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/view_margin"
+                    android:text="@string/fragment_perfil_str_tipo_usuario" />
+
+                <Spinner
+                    android:id="@+id/fragment_perfil_ddl_tipo_usuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_margin"
+                    android:background="@drawable/bg_dropdown" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_margin"
+                    android:text="@string/fragment_perfil_str_ubicacion" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_margin"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/view_margin"
+                        android:text="@string/fragment_perfil_str_pais" />
+
+                    <Spinner
+                        android:id="@+id/fragment_perfil_ddl_pais"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/view_margin"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:background="@drawable/bg_dropdown" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/view_margin"
+                        android:text="@string/fragment_perfil_str_departamento" />
+
+                    <Spinner
+                        android:id="@+id/fragment_perfil_ddl_departamento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/view_margin"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:background="@drawable/bg_dropdown" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/view_margin"
+                                android:text="@string/fragment_perfil_str_ciudad" />
+
+                            <Spinner
+                                android:id="@+id/fragment_perfil_ddl_ciudad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/view_margin"
+                                android:layout_marginTop="@dimen/view_margin"
+                                android:layout_weight=".3"
+                                android:background="@drawable/bg_dropdown" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".7"
+                            android:gravity="center_horizontal|bottom">
+
+
+                            <Button
+                                android:id="@+id/fragment_perfil_btn_add_chip"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:drawableLeft="@drawable/ic_action_add_circle"
+                                android:drawableStart="@drawable/ic_action_add_circle"
+                                android:gravity="center_horizontal"
+                                android:theme="@style/DependenciaJudicialButton" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/view_margin"
+                        android:text="@string/fragment_perfil_str_ciudades_seleccionadas" />
+
+                    <LinearLayout
+                        android:id="@+id/fragment_perfil_ly_prueba"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fragment_perfil_btn_actualizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_margin"
+                android:drawableLeft="@drawable/ic_action_update"
+                android:drawablePadding="-30dp"
+                android:drawableStart="@drawable/ic_action_update"
+                android:text="@string/fragment_perfil_str_btn_actualizar"
+                android:textColor="@color/textColorPrimary"
+                android:theme="@style/DependenciaJudicialButton" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

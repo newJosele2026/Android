@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_subheader"
+        android:title="@string/menu_group_str_otras_opciones">
+        <menu>
+            <item
+                android:id="@+id/menu_item_mn_exit"
+                android:icon="@drawable/ic_action_exit_to_app"
+                android:title="@string/menu_item_str_exit"/>
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,212 @@
+apply plugin: 'com.android.application'
+
+def dbflow_version = "4.1.2"
+def android_version = "27.+"
+def sqlcipher_version = "3.5.7"
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'DependenciJudicialKS'
+            keyPassword 'Proyecta2017'
+            storeFile file('C:/Users/Josele2015/documentacion josele/DependenciaJudicial/KeyStoreDj.jks')
+            storePassword 'Proyecta2017'
+        }
+    }
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.slt.dependenciajudicial"
+        minSdkVersion 22
+        targetSdkVersion 27
+        versionCode 1
+        versionName "0.0.46"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            renderscriptDebuggable true
+            signingConfig signingConfigs.config
+        }
+    }
+    buildToolsVersion '28.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //compile 'com.android.support:multidex:1.0.2'
+
+    /* Libreria de soporte */
+    implementation "com.android.support:appcompat-v7:${android_version}"
+
+    //implementation "com.android.support:animated-vector-drawable:${android_version}"
+
+    //implementation "com.android.support:mediarouter-v7:${android_version}"
+
+    //implementation "com.android.support:customtabs:${android_version}"
+
+    //implementation "com.android.support:palette-v7:${android_version}"
+
+    //implementation "com.android.support:preference-v7:${android_version}"
+
+    //Libreria de material design
+    implementation "com.android.support:support-v4:${android_version}"
+    implementation "com.android.support:design:${android_version}"
+
+    //Librerias de cardview and recyclerview
+    implementation "com.android.support:cardview-v7:${android_version}"
+    implementation "com.android.support:recyclerview-v7:${android_version}"
+
+    //Libreria que redondea un img
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    // Libreria que permite cargar una img asincronicamente
+
+    //implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    // JSON Parsing
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    // Libreria Material Search Bar (Barra de busqueda)
+
+    //compile 'com.github.mancj:MaterialSearchBar:0.7.5'
+
+    //compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
+
+    //Loader
+
+    //implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
+
+    //Dialogos
+    implementation 'com.afollestad.material-dialogs:core:0.9.5.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.5.0'
+
+    //Efecto Reveal
+
+    //https://github.com/markushi/android-ui
+
+    //implementation 'com.github.markushi:android-ui:1.2'
+
+    //DB FLOW
+
+    //https://github.com/Raizlabs/DBFlow
+    implementation 'com.android.support:support-v4:27.0.1'
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
+    implementation "net.zetetic:android-database-sqlcipher:${sqlcipher_version}@aar"
+
+    //implementation "com.github.Raizlabs.DBFlow:dbflow-rx:${dbflow_version}"
+
+    //implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:${dbflow_version}"
+
+    //Libreria de inyeccion de vistas
+
+    //https://geekytheory.com/butterknife-sorprendentemente-sencillo-absolutamente-imprescindible
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //Libreria de DrownDown List Material Desing
+
+    //http://www.viralandroid.com/2016/02/android-material-design-spinner-dropdown-example.html
+
+    //implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
+
+    //Libreria Material chip
+
+    //https://github.com/pchmn/MaterialChipsInput
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+
+    // Firebase Cloud Messager
+
+    //implementation 'com.google.android.gms:play-services-gcm:8.3.0'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+
+    //Libreria Img To Pdf
+    implementation 'com.itextpdf:itextg:5.5.9'
+
+    //Libreria Activity Take Img or select (Libreria que nos permite pintar un activity para crear o seleccionar una img)
+
+    //implementation 'com.github.ParkSangGwon:TedPicker:v1.0.10'
+
+    // PolyPicker dependency.
+
+    // compile 'net.the4thdimension:poly-picker:1.0.13-SNAPSHOT'
+
+    // Tomar o seleccionar img desde android
+
+    // https://github.com/esafirm/android-image-picker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
+
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:1.13.1'
+
+    // If you have a problem with Glide, please use the same Glide version or simply open an issue
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+
+    // Libreria de RatingBar Material
+
+    // https://github.com/DreaminginCodeZH/MaterialRatingBar
+    implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
+
+    // Libreria para detectar eventos en el teclado
+
+    // https://github.com/yshrsmz/KeyboardVisibilityEvent
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
+
+    //Badge (Contador en item del menu)
+
+    //https://github.com/juanlabrador/BadgeCounter
+    implementation 'com.github.juanlabrador:badgecounter:1.0.2@aar'
+
+    // CircularReveal pre-Lollipop
+
+    // https://github.com/ozodrukh/CircularReveal
+
+    // compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+
+    //   transitive = true;
+
+    // }
+
+    // Awasome splash
+
+    // https://github.com/ViksaaSkool/AwesomeSplash
+    implementation 'com.github.ViksaaSkool:AwesomeSplash:v1.0.0'
+
+    // Mascara de edit text
+
+    // https://github.com/egslava/edittext-mask
+    implementation 'ru.egslava:MaskedEditText:1.0.5'
+
+    //Librerias de test
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    //Libreria expansion Panel
+    implementation 'com.github.florent37:expansionpanel:1.1.1'
+
+    //Libreria implementacion Gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
+}
+
+apply plugin: 'com.google.gms.google-services'

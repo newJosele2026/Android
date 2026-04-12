@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    tools:context="com.slt.dependenciajudicial.views.activity.ActivityRegistro">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/tool_bar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/activity_registro_nsv_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/activity_registro_str_titulo_inf_persona"
+                android:textColor="@color/colorAccent" />
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_dimen_margin"
+                android:layout_marginRight="@dimen/card_dimen_margin"
+                app:cardElevation="@dimen/card_dimen_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_margin"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="@string/activity_registro_str_email"
+                            android:inputType="textEmailAddress" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_pass"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+
+                            android:hint="@string/activity_registro_str_pass"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_primer_nombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_primer_nombre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="@string/activity_registro_str_primer_nombre"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_segundo_nombre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="@string/activity_registro_str_segundo_nombre"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_primer_apellido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_primer_apellido"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="@string/activity_registro_str_primer_apellido"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_segundo_apellido"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="@string/activity_registro_str_segundo_apellido"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_registro_str_tipo_identificacion" />
+
+                    <Spinner
+                        android:id="@+id/activity_registro_ddl_identificacion"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dropdown" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_identificacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_identificacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/activity_registro_str_identificacion"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_fecha_exp_doc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:hint="@string/activity_registro_str_fecha_ext_doc"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_tarjeta_profesional"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/activity_registro_str_tarjeta_profesional"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/activity_registro_ly_edt_celular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DependenciaJudicialEditText"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/DependenciaJudicialEditTextError">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/activity_registro_edt_celular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/activity_registro_str_celular"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="@string/activity_registro_str_titulo_inf_ubicacion"
+                android:textColor="@color/colorAccent" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/card_dimen_margin"
+                android:layout_marginRight="@dimen/card_dimen_margin"
+                app:cardElevation="@dimen/card_dimen_elevation">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_margin"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_registro_str_pais" />
+
+                    <Spinner
+                        android:id="@+id/activity_registro_ddl_pais"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:layout_marginBottom="@dimen/view_margin"
+                        android:background="@drawable/bg_dropdown" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_registro_str_departamento" />
+
+                    <Spinner
+                        android:id="@+id/activity_registro_ddl_departamento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/view_margin"
+                        android:layout_marginBottom="@dimen/view_margin"
+                        android:background="@drawable/bg_dropdown" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/activity_registro_str_ciudad" />
+
+                            <Spinner
+                                android:id="@+id/activity_registro_ddl_ciudad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/view_margin"
+                                android:layout_marginBottom="@dimen/view_margin"
+                                android:layout_weight=".3"
+                                android:background="@drawable/bg_dropdown" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".7"
+                            android:gravity="center_horizontal|bottom">
+
+
+                            <Button
+                                android:id="@+id/activity_registro_btn_add_chip"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:drawableLeft="@drawable/ic_action_add_circle"
+                                android:drawableStart="@drawable/ic_action_add_circle"
+                                android:gravity="center_horizontal"
+                                android:theme="@style/DependenciaJudicialButton" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <com.pchmn.materialchips.ChipsInput
+                        android:id="@+id/activity_registro_chips_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:defaultFocusHighlightEnabled="false"
+                        android:visibility="gone"
+
+                        app:chip_deletable="true"
+                        app:hint="@string/activity_registro_str_ciudades_seleccionadas"
+                        app:showChipDetailed="false" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <Button
+                android:id="@+id/activity_registro_btn_crear_cuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_user_add"
+                android:drawablePadding="-30dp"
+                android:drawableStart="@drawable/ic_action_user_add"
+                android:text="@string/activity_registro_str_crear_cuenta"
+                android:textColor="@color/textColorPrimary"
+                android:theme="@style/DependenciaJudicialButton" />
+
+
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

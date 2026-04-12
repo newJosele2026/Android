@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.slt.dependenciajudicial.views.activity.ActivitySplash">
+
+    <io.codetail.widget.RevealFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark" >
+
+        <View
+            android:id="@+id/activity_splash_animate_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/windowBackground"
+            android:visibility="invisible"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+
+                android:id="@+id/activity_splash_imgv_prozess"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="false"
+                android:cropToPadding="false"
+                android:contentDescription="@string/app_name"
+                android:layout_margin="@dimen/activity_margin"/>
+        </RelativeLayout>
+
+
+
+
+    </io.codetail.widget.RevealFrameLayout>
+
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

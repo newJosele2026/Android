@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/view_margin"
+    android:weightSum="1"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/item_soporte_ly_container"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:layout_weight=".1"
+        android:layout_margin="@dimen/view_margin"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_soporte_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/item_soporte_nombre"
+            android:layout_width="wrap_content"
+            android:text="@string/item_soportes_str_nombre_archivo"
+            android:layout_gravity="center"
+            android:textColor="@color/textColor"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/view_margin"
+        android:layout_weight=".9"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_soporte_delete"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/ic_action_delete"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,88 @@
+<resources>
+
+    <style name="DependenciaJudicialTheme" parent="DependenciaJudicialThemeBase"/>
+    <!-- Base application theme. -->
+    <!-- App Style -->
+    <style name="DependenciaJudicialThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/windowBackground</item>
+    </style>
+
+    <!-- Button Style. -->
+    <style name="DependenciaJudicialButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+
+    </style>
+
+    <style name="DependenciaJudicialButtonDark" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+
+    </style>
+
+    <!-- Button Cancelar Style. -->
+    <style name="DependenciaJudicialButtonCancelar" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorButtonNormal">@color/colorError</item>
+
+    </style>
+
+
+    <!--Campo de texto-->
+    <style name="DependenciaJudicialEditText" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorHint">@color/textColorSecondary</item>
+        <item name="android:textColorPrimary">@color/textColorSecondary</item>
+        <item name="colorAccent">@color/textColorSecondary</item>
+        <item name="colorControlNormal">@color/textColorSecondary</item>
+        <item name="colorControlActivated">@color/textColorSecondary</item>
+
+    </style>
+
+    <!--Campo de texto-->
+    <style name="DependenciaJudicialEditTextError" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorError</item>
+    </style>
+
+    <style name="DependenciaJudicialDialogAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
+        <item name="android:background">@color/windowBackground</item>
+    </style>
+
+    <style name="DependenciaJudicialText" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/colorAccent</item>
+
+    </style>
+
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DependenciaJudicialDatePicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
+    </style>
+
+
+    <style name="DependenciaJudicialTheme_picker" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+</resources>

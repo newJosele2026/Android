@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "634619681937",
+    "firebase_url": "https://dependencia-judicial-app.firebaseio.com",
+    "project_id": "dependencia-judicial-app",
+    "storage_bucket": "dependencia-judicial-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634619681937:android:dc12f3e9b223c701",
+        "android_client_info": {
+          "package_name": "com.slt.aidde"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634619681937-cgbilsd06npo46mbrmrqrlbm99sd22eu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.slt.aidde",
+            "certificate_hash": "6ff9abaa719c706624b4a21fbea77def3f7ce4ef"
+          }
+        },
+        {
+          "client_id": "634619681937-g2qlbu84e4avhuj0bgbba51pc20nniqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj9wzFKivx_1K0eU_SjQctz_wqFYa1CWo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634619681937-g2qlbu84e4avhuj0bgbba51pc20nniqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634619681937:android:62edd6b55594f386",
+        "android_client_info": {
+          "package_name": "com.slt.dependenciajudicial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634619681937-nv4cihg2qrsbn332jlf1vj2s6ms4vl6c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.slt.dependenciajudicial",
+            "certificate_hash": "6ff9abaa719c706624b4a21fbea77def3f7ce4ef"
+          }
+        },
+        {
+          "client_id": "634619681937-g2qlbu84e4avhuj0bgbba51pc20nniqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj9wzFKivx_1K0eU_SjQctz_wqFYa1CWo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634619681937-g2qlbu84e4avhuj0bgbba51pc20nniqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

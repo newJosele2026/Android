@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.github.florent37.expansionpanel.ExpansionHeader
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:expansion_headerIndicator="@id/headerIndicator"
+        app:expansion_layout="@id/expansionLayout"
+        app:expansion_toggleOnClick="true">
+
+        <RelativeLayout
+            android:background="@android:color/white"
+            android:layout_height="@dimen/relative_layout_expansion_panel"
+            android:layout_width="match_parent"
+            android:paddingLeft="@dimen/relative_layout_expansion_panel_l"
+            android:paddingTop="@dimen/relative_layout_expansion_panel_t"
+            android:paddingBottom="@dimen/relative_layout_expansion_panel_b"
+            android:paddingRight="@dimen/relative_layout_expansion_panel_r">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/str_header"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/activity_expansion_panel_header"
+                android:textColor="@color/cardview_dark_background" />
+
+            <TextView
+                android:id="@+id/second_header"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/txt_view_layout_expansion_panel_ml_2"
+                android:layout_width="wrap_content"
+                android:text="@string/activity_expansion_panel_second_header"
+                android:textColor="@color/color_expansion_panel_txt" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:adjustViewBounds="true"
+                android:id="@+id/headerIndicator"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/image_view_vector"
+                android:layout_width="wrap_content"
+                app:srcCompat="@drawable/ic_expansion_header_indicator_grey_24dp" />
+
+        </RelativeLayout>
+
+    </com.github.florent37.expansionpanel.ExpansionHeader>
+
+    <com.github.florent37.expansionpanel.ExpansionLayout
+        android:id="@+id/expansionLayout"
+        app:expansion_expanded="false"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <TextView
+                android:background="@color/txt_view_background_color"
+                android:id="@+id/str_content_actuacion"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_expansion_panel_content_actuacion" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_servicios_disponibles_str_titulo_tiempo_servicio"
+                    android:textColor="@color/colorAccent"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/item_servicios_disponibles_spn_tiempo_masivo"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_margin"
+                    android:background="@drawable/bg_dropdown"
+                    android:layout_weight=".6"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/item_servicios_disponibles_spn_unidad_masivo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dropdown"
+                    android:layout_margin="@dimen/view_margin"
+                    android:layout_weight=".4"/>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/item_servicios_disponibles_atender_servicio_masivo"
+                    android:text="@string/item_servicios_disponibles_str_atender_servicio"
+                    android:textColor="@color/windowBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="-30dp"
+                    android:layout_margin="@dimen/card_dimen_margin_padding"
+                    android:drawableLeft="@drawable/ic_action_work"
+                    android:drawableStart="@drawable/ic_action_work"
+                    android:theme="@style/DependenciaJudicialButton" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+    </com.github.florent37.expansionpanel.ExpansionLayout>
+</LinearLayout>

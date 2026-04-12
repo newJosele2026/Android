@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable_layout_background_border"
+        app:cardElevation="@dimen/card_dimen_elevation"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginBottom="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/view_margin"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/view_margin"
+                android:orientation="vertical"
+                android:weightSum="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:textSize="@dimen/item_servicios_disponibles_diment_font_size_fecha"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                    android:layout_marginRight="@dimen/card_dimen_margin_padding"
+                    android:text="@string/item_servicios_disponibles_str_fecha"
+                    android:layout_weight=".7"
+                    />
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_tipo_servicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/item_servicios_disponibles_str_tipo_servicio"
+                    android:textSize="@dimen/item_servicios_disponibles_dimen_font_size_tipo_servicio"
+                    android:layout_weight=".3"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                     />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_numero_proceso"
+                    android:text="@string/item_servicios_disponibles_str_numero_proceso"
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/item_servicios_disponibles_dimen_font_size_num_proceso"
+                    android:layout_height="wrap_content"
+                     />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_despacho"
+                    android:text="@string/item_servicios_disponibles_str_despacho"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/view_margin"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_ciudad"
+                    android:text="@string/item_servicios_disponibles_str_ciudad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                     />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_servicios_disponibles_str_titulo_detalle"
+                    android:textColor="@color/colorAccent"
+
+                     />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:layout_marginBottom="@dimen/view_margin"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_servicios_disponibles_detalle"
+                    android:text="@string/item_servicios_disponibles_str_detalle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_servicios_disponibles_str_titulo_tiempo_servicio"
+                    android:textColor="@color/colorAccent"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/item_servicios_disponibles_spn_tiempo"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/view_margin"
+                    android:background="@drawable/bg_dropdown"
+                    android:layout_weight=".6"/>
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/item_servicios_disponibles_spn_unidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dropdown"
+                    android:layout_margin="@dimen/view_margin"
+                    android:layout_weight=".4"/>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/item_servicios_disponibles_atender_servicio"
+                    android:text="@string/item_servicios_disponibles_str_atender_servicio"
+                    android:textColor="@color/windowBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="-30dp"
+                    android:layout_margin="@dimen/card_dimen_margin_padding"
+                    android:drawableLeft="@drawable/ic_action_work"
+                    android:drawableStart="@drawable/ic_action_work"
+                    android:theme="@style/DependenciaJudicialButton" />
+
+
+
+            </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

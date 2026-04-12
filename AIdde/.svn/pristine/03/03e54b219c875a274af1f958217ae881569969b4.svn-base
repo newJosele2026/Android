@@ -1,0 +1,527 @@
+package com.slt.dependenciajudicial.views.fragments;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+//import com.gun0912.tedpicker.Config;
+//import com.gun0912.tedpicker.ImagePickerActivity;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
+import com.slt.dependenciajudicial.R;
+import com.slt.dependenciajudicial.app.Preferences;
+import com.slt.dependenciajudicial.app.database.tables.SolicitudDB;
+import com.slt.dependenciajudicial.app.database.tables.SolicitudesProcesosNumeroMovimientoProcesalBD;
+import com.slt.dependenciajudicial.requests.SOService;
+import com.slt.dependenciajudicial.requests.models.RequestSolicitudModel;
+import com.slt.dependenciajudicial.requests.models.SolicitudModel;
+import com.slt.dependenciajudicial.requests.models.SolicitudesProcesosNumeroMovimientoProcesalModel;
+import com.slt.dependenciajudicial.requests.settings.ApiUtils;
+import com.slt.dependenciajudicial.utils.DependenciaJudicialUtils;
+import com.slt.dependenciajudicial.utils.callback.CallbackCreatePdf;
+import com.slt.dependenciajudicial.utils.callback.CallbackRVServiciosAceptados;
+import com.slt.dependenciajudicial.views.activity.ActivityGestionarSolicitud;
+import com.slt.dependenciajudicial.views.activity.ActivityLogin;
+import com.slt.dependenciajudicial.views.adapters.RVAdapterServiciosAceptados;
+import com.slt.dependenciajudicial.views.asyn.AsynCreatePdf;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.slt.dependenciajudicial.app.Preferences.getPreferences;
+import static com.slt.dependenciajudicial.app.Preferences.savePreferences;
+import static com.slt.dependenciajudicial.requests.settings.ApiUtils.CODE_SESION_EXPIRE;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_CODE_ACCION_FCM_SERVICIO_ASIGNACION;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_CURRENT_SCREEN;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_IIDSOLICITUD_TEM;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_TOKEN;
+
+/**
+ * Created by Nelsy Acuña on 21/11/2017.
+ */
+
+public class FragmentServiciosAceptados extends Fragment {
+
+    private static final String LOG_ACTIVITY = "FServiciosDisponibles";
+
+    private DrawerLayout drawer;
+    private RVAdapterServiciosAceptados adapter;
+    private List<SolicitudModel> solicitudModels;
+    private List<SolicitudesProcesosNumeroMovimientoProcesalModel> solicitudNumeroProcesal;
+    private SOService apiService;
+    private Call<RequestSolicitudModel> callSolicitudesAsignadas;
+
+    //region Init view
+
+    @BindView(R.id.tool_bar)
+    Toolbar toolbar;
+
+    @BindView(R.id.fragment_servicios_aceptados_rv_servicios)
+    RecyclerView rvServicios;
+
+    @BindView(R.id.fragment_servicios_aceptados_swipe_refresh_container)
+    SwipeRefreshLayout swipeRefreshContainer;
+
+    @BindView(R.id.fragment_servicios_aceptados_ly_no_servicios_aceptados)
+    LinearLayout lyNoAceptados;
+
+    //endregion
+
+
+    //region init String
+
+    @BindString(R.string.fragment_servicios_aceptados_str_bar_title)
+    String strBarTitulo;
+
+    @BindString(R.string.general_sin_conexion)
+    String strGeneralSinConexion;
+
+    @BindString(R.string.general_sin_conexion_servidor)
+    String strGeneralSinConexionServidor;
+
+    @BindString(R.string.general_sesion_finalizada)
+    String strGeneralSesionFinalizada;
+
+
+    //endregion
+
+
+    public FragmentServiciosAceptados() {
+        // Required empty public constructor
+
+        solicitudModels = new ArrayList<>();
+        solicitudNumeroProcesal = new ArrayList<>();
+
+        Log.d(LOG_ACTIVITY, " FragmentServiciosAceptados Constructor ");
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.fragment_servicios_aceptados, container, false);
+        ButterKnife.bind(this, root);
+
+        apiService = ApiUtils.getSOService();
+        setupToolBar();
+        setupDrawerLayout();
+        setupSwipeRefreshContainer();
+        setupRVServicios();
+
+
+        // setHasOptionsMenu(true);
+
+
+        Log.d(LOG_ACTIVITY, "FragmentServiciosAceptados onCreateView");
+        return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setupToolBar();
+        setupDrawerLayout();
+        resetNotificationMenuCountServicioDisponible();
+
+        getUpdateListSolicitudModel();
+        resetNotificacionSolicitud();
+        savePreferences(getActivity(), SP_CURRENT_SCREEN, APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS);
+
+        Log.d(LOG_ACTIVITY, "FragmentServiciosAceptados onResume");
+
+    }
+
+    //metodo que inicializa la toolbar
+    private void setupToolBar() {
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_menu);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(strBarTitulo);
+    }
+
+    //metodo que inicializa las acciones del menu
+    private void setupDrawerLayout() {
+
+        drawer = getActivity().findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+    }
+
+    //Metodo que inicializa la lista de servicios
+    private void setupRVServicios() {
+
+        //Obtener datos de los servicios disponibles
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        // rvServicios.setHasFixedSize(true);
+        rvServicios.setLayoutManager(llm);
+
+
+        CallbackRVServiciosAceptados callbackRVServiciosAceptados = new CallbackRVServiciosAceptados() {
+            @Override
+            public void onCallbackRVServicioAceptadosTouch(SolicitudModel itemModel) {
+
+                savePreferences(getActivity(), DependenciaJudicialUtils.SP_IIDSOLICITUD_TEM, itemModel.getIIDSolicitud().toString());
+                startActivity(new Intent(getActivity(), ActivityGestionarSolicitud.class));
+
+
+            }
+        };
+
+
+        adapter = new RVAdapterServiciosAceptados(getContext(), solicitudModels, solicitudNumeroProcesal, callbackRVServiciosAceptados);
+        rvServicios.setAdapter(adapter);
+    }
+
+    //Medoto que retorna las solicitudes guardadas en el dispositivo
+    private List<SolicitudesProcesosNumeroMovimientoProcesalModel> getUpdateListSolicitudNumeroProcesalModelBD() {
+
+
+        Log.d(LOG_ACTIVITY, "getUpdateListSolicitudModelBD");
+
+        List<SolicitudesProcesosNumeroMovimientoProcesalModel> listSolicitudNumeroProcesalModels = new ArrayList<>();
+
+        List<SolicitudesProcesosNumeroMovimientoProcesalBD> solicitudNumeroMovimientoProcesalDBList = new Select().from(SolicitudesProcesosNumeroMovimientoProcesalBD.class).queryList();
+
+        Log.d(LOG_ACTIVITY, "solicitudDBList.size():" + solicitudNumeroMovimientoProcesalDBList.size());
+
+        for (SolicitudesProcesosNumeroMovimientoProcesalBD solicitudDB : solicitudNumeroMovimientoProcesalDBList) {
+
+            SolicitudesProcesosNumeroMovimientoProcesalModel solicitudModel = new SolicitudesProcesosNumeroMovimientoProcesalModel();
+
+            solicitudModel.settNumeroProceso(solicitudDB.gettNumeroProceso());
+            solicitudModel.settNombreDespacho(solicitudDB.gettNombreDespacho());
+            solicitudModel.settMunicipio(solicitudDB.gettMunicipio());
+            solicitudModel.settEstructuraConceptualRelacionActuacion(solicitudDB.gettEstructuraConceptualRelacionActuacion());
+            solicitudModel.setiIDTipoSoporteTipo(solicitudDB.getiDTipoSoporteTipo());
+            solicitudModel.setiDSolicitud(solicitudDB.getiDSolicitud());
+            solicitudModel.setiDProcesoMovimientoProcesal(solicitudDB.getiDProcesoMovimientoProcesal());
+
+            listSolicitudNumeroProcesalModels.add(solicitudModel);
+        }
+        return listSolicitudNumeroProcesalModels;
+    }
+
+
+
+
+
+
+    //Medoto que retorna las solicitudes guardadas en el dispositivo
+    private List<SolicitudModel> getUpdateListSolicitudModelBD() {
+
+
+        Log.d(LOG_ACTIVITY, "getUpdateListSolicitudModelBD");
+
+        List<SolicitudModel> listSolicitudModels = new ArrayList<>();
+
+        List<SolicitudDB> solicitudDBList = new Select().from(SolicitudDB.class).queryList();
+
+        Log.d(LOG_ACTIVITY, "solicitudDBList.size():" + solicitudDBList.size());
+
+        for (SolicitudDB solicitudDB : solicitudDBList) {
+
+                SolicitudModel solicitudModel = new SolicitudModel();
+
+                solicitudModel.setIIDSolicitud(solicitudDB.getiIDSolicitud());
+                solicitudModel.setTNombreSolicitud(solicitudDB.gettNombreSolicitud());
+                solicitudModel.setIIDTipoSolicitud(solicitudDB.getiIDTipoSolicitud());
+                solicitudModel.setTCiudad(solicitudDB.gettCiudad());
+                solicitudModel.setTDespacho(solicitudDB.gettDespacho());
+                solicitudModel.setTNumeroProceso(solicitudDB.gettNumeroProceso());
+                solicitudModel.setTDescripcionSolicitud(solicitudDB.gettDescripcionSolicitud());
+                solicitudModel.setDtFechaSolicitud(solicitudDB.getDtFechaSolicitud());
+                solicitudModel.settUnidadTiempoSolicitudDependiente(solicitudDB.gettUnidadTiempoSolicitudDependiente());
+                solicitudModel.setiTiempoSolicitudDependiente(solicitudDB.getiTiempoSolicitudDependiente());
+                solicitudModel.setTiIDUnidadTiempoDependiente(solicitudDB.getTiIDUnidadTiempoDependiente());
+
+                listSolicitudModels.add(solicitudModel);
+
+        }
+
+        return listSolicitudModels;
+    }
+
+    //Metodo que actualiza las solicitudes del dispositivo
+    private void updateSolicitudBD(List<SolicitudModel> listSolicitudModel, List<SolicitudesProcesosNumeroMovimientoProcesalModel> listSolicitudNumeroProcesalModel) {
+
+
+        Log.d(LOG_ACTIVITY, "updateSolicitudBD");
+
+        //Eliminar datos de la tabla
+        new Delete().from(SolicitudDB.class).execute();
+        new Delete().from(SolicitudesProcesosNumeroMovimientoProcesalBD.class).execute();
+
+        Log.d(LOG_ACTIVITY, "Delete SolicitudDB");
+        Log.d(LOG_ACTIVITY, "Delete SolicitudesProcesosNumeroMovimientoProcesalBD");
+
+        //Insertar servicios asignados
+        for (SolicitudModel solicitudModel : listSolicitudModel) {
+
+
+               SolicitudDB solicitudDB = new SolicitudDB();
+
+               solicitudDB.setiIDSolicitud(solicitudModel.getIIDSolicitud());
+               solicitudDB.settNombreSolicitud(solicitudModel.getTNombreSolicitud());
+               solicitudDB.setiIDTipoSolicitud(solicitudModel.getIIDTipoSolicitud());
+               solicitudDB.settCiudad(solicitudModel.getTCiudad());
+               solicitudDB.settDespacho(solicitudModel.getTDespacho());
+               solicitudDB.settNumeroProceso(solicitudModel.getTNumeroProceso());
+               solicitudDB.settDescripcionSolicitud(solicitudModel.getTDescripcionSolicitud());
+               solicitudDB.setDtFechaSolicitud(solicitudModel.getDtFechaSolicitud());
+               solicitudDB.settUnidadTiempoSolicitudDependiente(solicitudModel.gettUnidadTiempoSolicitudDependiente());
+               solicitudDB.setiTiempoSolicitudDependiente(solicitudModel.getiTiempoSolicitudDependiente());
+               solicitudDB.setTiIDUnidadTiempoDependiente(solicitudModel.getTiIDUnidadTiempoDependiente());
+               solicitudDB.save();
+
+        }
+
+        for(SolicitudesProcesosNumeroMovimientoProcesalModel solicitudNumeroModel: listSolicitudNumeroProcesalModel){
+
+            SolicitudesProcesosNumeroMovimientoProcesalBD solicitudNumeroBD = new SolicitudesProcesosNumeroMovimientoProcesalBD();
+
+            solicitudNumeroBD.settNumeroProceso(solicitudNumeroModel.gettNumeroProceso());
+            solicitudNumeroBD.settEstructuraConceptualRelacionActuacion(solicitudNumeroModel.gettEstructuraConceptualRelacionActuacion());
+            solicitudNumeroBD.setiDProcesoMovimientoProcesal(solicitudNumeroModel.getiDProcesoMovimientoProcesal());
+            solicitudNumeroBD.setiDSolicitud(solicitudNumeroModel.getiDSolicitud());
+            solicitudNumeroBD.setiDTipoSoporteTipo(solicitudNumeroModel.getiIDTipoSoporteTipo());
+            solicitudNumeroBD.settMunicipio(solicitudNumeroModel.gettMunicipio());
+            solicitudNumeroBD.settNombreDespacho(solicitudNumeroModel.gettNombreDespacho());
+            solicitudNumeroBD.save();
+
+        }
+
+        // Log.d(LOG_ACTIVITY, "new Select().from(SolicitudDB.class).queryList()" + new Select().from(SolicitudDB.class).queryList().size());
+
+    }
+
+    private void updateRVServiciosBD() {
+
+        solicitudModels = getUpdateListSolicitudModelBD();
+        solicitudNumeroProcesal = getUpdateListSolicitudNumeroProcesalModelBD();
+
+
+        adapter.updateRVServiciosAceptado2(solicitudModels, solicitudNumeroProcesal);
+    }
+
+    // Metodo que obtienen los datos de la lista y la actualiza
+    private void getUpdateListSolicitudModel() {
+
+        if (DependenciaJudicialUtils.isConnected(getActivity())) {
+
+            swipeRefreshContainer.setRefreshing(true);
+
+            //Consulta al servicio
+
+            String token = getPreferences(getActivity(), SP_TOKEN);
+
+            callSolicitudesAsignadas = apiService.SolicitudesAsignadas(token);
+
+
+            callSolicitudesAsignadas.enqueue(new Callback<RequestSolicitudModel>() {
+                @Override
+                public void onResponse(Call<RequestSolicitudModel> call, Response<RequestSolicitudModel> response) {
+
+                    if (response.isSuccessful()) {
+
+                        if (response.code() != CODE_SESION_EXPIRE) {
+
+                            if (response.body() != null && response.body().getToken() != null) {
+
+                                Preferences.savePreferences(getActivity(), DependenciaJudicialUtils.SP_TOKEN, response.body().getToken());
+
+                                if (response.body().getListSolicitudModel() != null && response.body().getListSolicitudModel().size() != 0) {
+
+
+                                    solicitudModels = response.body().getListSolicitudModel();
+                                    solicitudNumeroProcesal = response.body().getListProcesalNumber();
+
+                                    updateSolicitudBD(solicitudModels, solicitudNumeroProcesal);
+
+
+                                    adapter.updateRVServiciosAceptado2(solicitudModels, solicitudNumeroProcesal);
+                                    resetNotificacionSolicitud();
+
+                                    lyNoAceptados.setVisibility(View.GONE);
+
+                                } else {
+
+                                    solicitudModels = new ArrayList<>();
+                                    solicitudNumeroProcesal = new ArrayList<>();
+                                    updateSolicitudBD(solicitudModels, solicitudNumeroProcesal);
+
+
+                                    adapter.updateRVServiciosAceptado2(solicitudModels, solicitudNumeroProcesal);
+
+
+                                    lyNoAceptados.setVisibility(View.VISIBLE);
+                                    Log.d(LOG_ACTIVITY, "No hay servicios ");
+                                    //No hay resuldados
+                                }
+
+                            } else {
+
+                                updateRVServiciosBD();
+
+                                if (solicitudModels != null && solicitudModels.size() == 0)
+                                    lyNoAceptados.setVisibility(View.VISIBLE);
+
+                                Snackbar.make(getView(), strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                            }
+
+
+                        } else {
+                            finalizarSesion();
+                        }
+
+
+                    } else {
+
+                        updateRVServiciosBD();
+
+                        if (solicitudModels != null && solicitudModels.size() == 0)
+                            lyNoAceptados.setVisibility(View.VISIBLE);
+
+                        Snackbar.make(getView(), strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                    }
+
+                    swipeRefreshContainer.setRefreshing(false);
+
+                }
+
+                @Override
+                public void onFailure(Call<RequestSolicitudModel> call, Throwable t) {
+
+                    Log.d(LOG_ACTIVITY, "call isCanceled() :" + call.isCanceled());
+
+                    if (!call.isCanceled()) {
+
+                        updateRVServiciosBD();
+
+                        if (solicitudModels != null && solicitudModels.size() == 0)
+                            lyNoAceptados.setVisibility(View.VISIBLE);
+
+                        swipeRefreshContainer.setRefreshing(false);
+                        Snackbar.make(getView(), strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+
+        } else {
+
+            updateRVServiciosBD();
+
+            swipeRefreshContainer.setRefreshing(false);
+            Snackbar.make(getView(), strGeneralSinConexion, Snackbar.LENGTH_LONG).show();
+        }
+
+    }
+
+    // Metodo del evento de actualizar
+    private void setupSwipeRefreshContainer() {
+
+        swipeRefreshContainer.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+        swipeRefreshContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                Log.d(LOG_ACTIVITY, "sertupSwipeRefreshContainer");
+                getUpdateListSolicitudModel();
+
+            }
+        });
+    }
+
+    //metodo que limbia el count del menu de servicios disponibles
+    private void resetNotificationMenuCountServicioDisponible() {
+
+        Preferences.savePreferences(getActivity(), DependenciaJudicialUtils.SP_EXTRA_ADD_BAG_ALERT_ACEPTACION_SERVICIO, "");
+        NavigationView navView = getActivity().findViewById(R.id.navview);
+        DependenciaJudicialUtils.showMenuCountBag(getActivity(), navView, R.id.menu_dependiente_item_mn_servicios_aceptados, "");
+        DependenciaJudicialUtils.clearNotificacion(getActivity().getApplicationContext(), APP_CODE_ACCION_FCM_SERVICIO_ASIGNACION);
+
+    }
+
+    private void resetNotificacionSolicitud() {
+
+        if (solicitudModels != null && solicitudModels.size() != 0) {
+
+            for (SolicitudModel solicitudModel : solicitudModels) {
+                DependenciaJudicialUtils.clearNotificacion(getActivity().getApplicationContext(), solicitudModel.getIIDSolicitud().toString());
+
+            }
+        }
+
+    }
+
+
+    private void finalizarSesion() {
+
+        Preferences.clearPreferences(getActivity());
+        Toast.makeText(getActivity().getBaseContext(), strGeneralSesionFinalizada, Toast.LENGTH_LONG).show();
+        Intent i = new Intent(getActivity(), ActivityLogin.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        getActivity().finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Log.d(LOG_ACTIVITY, "onDestroy");
+
+        if (callSolicitudesAsignadas != null) {
+
+            Log.d(LOG_ACTIVITY, "onDestroy callSolicitudesAsignadas");
+            callSolicitudesAsignadas.cancel();
+        }
+
+        if (adapter.listCountDownTimer != null && adapter.listCountDownTimer.size() != 0) {
+            for (CountDownTimer countDownTimer : adapter.listCountDownTimer) {
+                countDownTimer.cancel();
+            }
+        }
+
+
+    }
+}

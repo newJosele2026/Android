@@ -1,0 +1,271 @@
+<resources>
+
+    <!-- App name  -->
+    <string name="app_name">Dependencia Judicial</string>
+
+
+    <!-- override library -->
+
+    <string name="ef_done">Crear PDF</string>
+    <string name="ef_selected_with_limit">%1$d/%2$d Seleccionados</string>
+    <string name="ef_selected">%d Archivos</string>
+
+    <!--Keys -->
+    <string name="api_gcm_key">AIzaSyC3xGzO_qZo1Vu_j3XgRkzaivrmgftLrKg</string>
+
+    <!--String Dialog Update -->
+    <string name="dialog_update_titulo_actualizar">Actualizar Versión</string>
+    <string name="dialog_update_content_actualizar">La versión actual está obsoleta ¿Desea actualizarla?</string>
+    <string name="dialog_update_positive_actualizar">Actualizar</string>
+    <string name="dialog_update_negative_actualizar">Cancelar</string>
+    <string name="dialog_update_play_store">market://details?id=com.example.android</string>
+
+
+    <!-- String General -->
+    <string name="general_sin_conexion_servidor">Por favor intente nuevamente..</string>
+    <string name="general_sin_conexion">No hay conexión a internet</string>
+    <string name="general_sesion_finalizada">Su sesión ha finalizado</string>
+    <string name="general_dialogo_titulo">Dependencia Judicial</string>
+    <string name="general_dialogo_btn_ok">Ok </string>
+    <string name="general_permisos_insuficientes">¡Permisos insuficientes! </string>
+    <string name="general_dialogo_salir">¿ Realmente deseas salir ?</string>
+    <string name="general_dialogo_btn_salir">Salir</string>
+    <string name="general_dialogo_btn_cancelar">Cancelar</string>
+    <string name="general_dialogo_btn_volver">Volver</string>
+    <string name="general_dialogo_btn_eliminar">Eliminar</string>
+    <string name="general_dialogo_btn_confirmar">Confirmar</string>
+
+    <!-- String Activity Home -->
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="update_snackbar_content">Actualizando bases de datos...</string>
+
+    <!-- String Activity Login -->
+    <string name="activity_login_str_email">Correo electrónico</string>
+    <string name="activity_login_str_pass">Contraseña</string>
+    <string name="activity_login_str_requerido">Correo y Contraseña requeridos</string>
+    <string name="activity_login_str_ingresar">Login</string>
+    <string name="activity_login_str_actualizar">Actualizar Versión</string>
+    <string name="activity_login_str_error">Correo y/o contraseña incorrecta !</string>
+    <string name="activity_login_str_usuario_no_registrado">Usuario no registrado!</string>
+    <string name="activity_login_str_progress_conten">Iniciando Sesión ...</string>
+    <string name="activity_login_str_registro">Registrate !!</string>
+    <string name="activity_login_str_recuperar"> ¿Olvido su contraseña?</string>
+    <string name="activity_login_str_valido_email">El correo electrónico no es válido</string>
+    <string name="activity_login_str_progress_recuperacion">Recuperando ...</string>
+
+    <string name="activity_login_str_dialogo_cuenta_sin_validar">Su cuenta aun no esta activada. Hemos reenviado a su correo el link para poder activarla.</string>
+    <string name="activity_login_str_dialogo_error"> Correo y/o contraseña incorrectos !.</string>
+
+    <string name="activity_login_str_dialogo_recuperar_exito">Hemos enviado un link a tu correo , con el cual podrás restablecer tu clave.</string>
+    <string name="activity_login_str_dialogo_recuperar_error"> El correo no esta registrado en el sistema.</string>
+
+    <!-- String Menu-->
+    <string name="menu_item_str_exit">Salir</string>
+    <string name="menu_group_str_otras_opciones">Otras Opciones </string>
+    <string name="menu_item_str_perfil">Perfil</string>
+    <string name="menu_group_str_dependiente">Dependencia Judicial</string>
+    <string name="menu_item_str_servicios_disponibles">Servicios Disponibles</string>
+    <string name="menu_item_str_servicios_aceptados">Servicios Aceptados</string>
+    <string name="menu_item_str_servicios_historial">Historial de Servicios</string>
+
+    <!-- String  Activity Registro -->
+    <string name="activity_registro_str_bar_title">Regístrate !!</string>
+    <string name="activity_registro_str_email">Correo electrónico</string>
+    <string name="activity_registro_str_pass">Contraseña</string>
+    <string name="activity_registro_str_primer_nombre">Primer Nombre</string>
+    <string name="activity_registro_str_segundo_nombre">Segundo Nombre</string>
+    <string name="activity_registro_str_primer_apellido">Primer Apellido</string>
+    <string name="activity_registro_str_segundo_apellido">Segundo Apellido</string>
+    <string name="activity_registro_str_crear_cuenta">Crear Cuenta</string>
+    <string name="activity_registro_str_obligatorio_identificacion">La identificación es obligatoria</string>
+    <string name="activity_registro_str_obligatorio_celular">La número de celular es obligatorio</string>
+
+    <string name="activity_registro_str_obligatorio_email">El correo electrónico es obligatorio</string>
+    <string name="activity_registro_str_valido_email">El correo electrónico no es válido</string>
+    <string name="activity_registro_str_valido_pass">La contraseña debe tener mínimo 8 caracteres, mayúsculas y números</string>
+    <string name="activity_registro_str_obligatorio_pass">La contraseña es obligatorio</string>
+    <string name="activity_registro_str_obligatorio_primer_nombre">El primer nombre es obligatorio</string>
+    <string name="activity_registro_str_obligatorio_primer_apellido">El primer apellido es obligatorio</string>
+    <string name="activity_registro_str_identificacion">Documento de identificación</string>
+    <string name="activity_registro_str_tipo_identificacion">Tipo Identificación</string>
+    <string name="activity_registro_str_titulo_inf_persona">Información Personal</string>
+    <string name="activity_registro_str_titulo_inf_ubicacion">Ubicación</string>
+    <string name="activity_registro_str_pais">País</string>
+    <string name="activity_registro_str_departamento">Departamento</string>
+    <string name="activity_registro_str_ciudad">Ciudad</string>
+    <string name="activity_registro_str_datos_obligatorios">Datos obligatorios faltantes</string>
+    <string name="activity_registro_str_sin_ciudad">Debe seleccionar al menos una ciudad</string>
+    <string name="fragment_perfil_str_sin_ciudad">Debe seleccionar al menos una ciudad</string>
+    <string name="activity_registro_str_ciudades_seleccionadas">Ciudades seleccionadas</string>
+    <string name="activity_registro_str_tarjeta_profesional">Tarjeta Profesional</string>
+    <string name="activity_registro_str_fecha_ext_doc">Fecha de Exp Documento</string>
+    <string name="activity_registro_str_celular">Celular</string>
+    <string name="activity_registro_str_progress_registro">Creando  Cuenta...</string>
+
+    <string name="activity_registro_str_dialogo_cuenta_creada">Su cuenta fue creada con éxito. Enviaremos un correo electrónico para que sea activada.</string>
+    <string name="activity_registro_str_dialogo_cuenta_sin_validar">Ya existe una cuenta registrada con este correo electrónico pero no esta activada. Hemos reenviado a su correo un link para su activación.</string>
+    <string name="activity_registro_str_dialogo_cuenta_validada">  Ya exite una cuenta con este correo electrónico.</string>
+
+
+    <!--String  Dilog Recuperar Contraseña -->
+    <string name="dialog_recuperar_pass_str_email">Correo electrónico</string>
+    <string name="dialog_recuperar_pass_str_recuperar">Recuperar contraseña</string>
+
+
+    <!--String Fragment perfil -->
+    <string name="fragment_perfil_str_titulo_general">General</string>
+    <string name="fragment_perfil_str_bar_title">Perfil</string>
+    <string name="fragment_perfil_str_tipo_usuario">Tipo Usuario</string>
+    <string name="fragment_perfil_str_progress_actualizar_">Actualizando información ... </string>
+    <string name="fragment_perfil_str_btn_actualizar">Actualizar</string>
+    <string name="fragment_perfil_str_dialogo_actualizacion_ok">Información actualizada con éxito</string>
+    <string name="fragment_perfil_str_titulo_archivos">Archivos</string>
+    <string name="fragment_perfil_switch_str_off">Off</string>
+    <string name="fragment_perfil_switch_str_on">On</string>
+    <string name="fragment_perfil_str_archivos">Transferencia de archivos / documentos / imagenes solo via WIFI</string>
+    <string name="fragment_perfil_str_ubicacion">Ubicación</string>
+    <string name="fragment_perfil_str_pais">País</string>
+    <string name="fragment_perfil_str_departamento">Departamento</string>
+    <string name="fragment_perfil_str_ciudad">Ciudad</string>
+    <string name="fragment_perfil_str_ciudades_seleccionadas">Ciudades seleccionadas</string>
+
+
+    <!--String Fragment Servicios disponibles-->
+    <string name="fragment_servicios_disponibles_str_bar_title">Servicios Disponibles</string>
+    <string name="fragment_servicios_disponibles_str_progress_aceptacion">Aceptando Solicitud...</string>
+    <string name="fragment_servicios_disponibles_str_no_solicitudes">No tienes solicitudes disponibles por el momento</string>
+    <string name="fragment_servicios_disponibles_str_aceptacion">En un momento te confirmaremos si el servicio te fue asignado !</string>
+    <string name="fragment_servicios_disponibles_str_solicitud_no_valida">La solicitud ya fue asignada !</string>
+
+
+    <!--String Fragment Servicios Aceptados -->
+    <string name="fragment_servicios_aceptados_str_bar_title">Servicios Aceptados</string>
+    <string name="fragment_servicios_aceptados_str_no_aceptados">No tienes solicitudes asignadas por el momento</string>
+
+    <!--String Fragment Historial de servicios -->
+    <string name="fragment_historial_servicios_str_bar_title">Historial de Servicios</string>
+    <string name="fragment_historial_servicios_str_no_solicitudes">No tienes solicitudes en tu historial</string>
+
+
+    <!--String item servicios disponibles -->
+    <string name="item_servicios_disponibles_str_ciudad">Chia</string>
+    <string name="item_servicios_disponibles_str_despacho">DESPACHO 000 TRIBUNAL ADMINISTRATIVO DE CUNDINAMARCA - SECCION TERCERA</string>
+    <string name="item_servicios_disponibles_str_numero_proceso">11001 03 27 001 2017 20000 11</string>
+    <string name="item_servicios_disponibles_str_atender_servicio">Tomar Servicio</string>
+    <string name="item_servicios_disponibles_str_detalle">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500</string>
+    <string name="item_servicios_disponibles_str_tipo_servicio">Tipo Servicio</string>
+    <string name="item_servicios_disponibles_str_fecha">10/10/2017</string>
+    <string name="item_servicios_disponibles_str_titulo_detalle">Descripción</string>
+    <string name="item_servicios_disponibles_str_titulo_tiempo_servicio">Tiempo del Servicio</string>
+
+    <!--String item servicios aceptados -->
+    <string name="item_servicios_aceptados_str_ciudad">Chia</string>
+    <string name="item_servicios_aceptados_str_despacho">DESPACHO 000 TRIBUNAL ADMINISTRATIVO DE CUNDINAMARCA - SECCION TERCERA</string>
+    <string name="item_servicios_aceptados_str_numero_proceso">11001 03 27 001 2017 20000 11</string>
+    <string name="item_servicios_aceptados_str_atender_servicio">Tomar Servicio</string>
+    <string name="item_servicios_aceptados_str_detalle">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500</string>
+    <string name="item_servicios_aceptados_str_tipo_servicio">Tipo Servicio</string>
+    <string name="item_servicios_aceptados_str_fecha">10/10/2017</string>
+    <string name="item_servicios_aceptados_str_titulo_detalle">Descripción</string>
+    <string name="item_servicios_aceptados_str_titulo_tiempo_servicio">Tiempo del Servicio</string>
+    <string name="item_servicios_aceptados_str_vigencia_expirada">Expirado</string>
+
+    <!-- Imagen Piker -->
+    <string name="activity_image_piker_str_tool_bar">Generar Documento</string>
+    <string name="activity_image_piker_str_dialog_title"> Generando Pdf</string>
+    <string name="activity_image_piker_str_dialog_content">Un momento por favor ...</string>
+
+    <!-- item_soportes -->
+    <string name="item_soportes_str_nombre_archivo">Nombre Documento</string>
+
+    <!-- -String Activity Gestionar Solportes-->
+    <string name="activity_gestionar_solicitud_str_bar_title">Solicitud # </string>
+    <string name="activity_gestionar_solicitud_str_adjuntar_archivo">Adjuntar Archivo</string>
+    <string name="activity_gestionar_solicitud_str_cumplido">Cumplir</string>
+    <string name="activity_gestionar_solicitud_str_cancelar">Cancelar</string>
+    <string name="activity_gestionar_solicitud_str_no_archivos">No hay archivos adjuntos</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_eliminar_title">Eliminar Archivo</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_eliminar_contenido">Realmente desea eliminar el archivo </string>
+    <string name="activity_gestionar_solicitud_str_dialogo_eliminar_eliminar">Eliminar</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_eliminar_cancelar">Cancelar</string>
+    <string name="activity_gestionar_solicitud_str_cumplir_btn_dialogo_contenido">"Es necesario por lo menos un archivo para continuar"</string>
+    <string name="activity_gestionar_solicitud_str_progress_cumplir_contenido">"Subiendo archivos y actualizando tu solicitud ... "</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_cumplir_cumplido">"La solicitud fue CUMPLIDA con éxito"</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_cumplir_file_error">"Los archivos no se han podido subir"</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_cumplir_estado_error">"La solicitud ha cambiado de estado"</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_cancelar_contenido">"Realmente desea cancelar la solicitud"</string>
+    <string name="activity_gestionar_solicitud_str_progress_cancelar_solicitud">"Cancelando la solicitud"</string>
+    <string name="activity_gestionar_solicitud_str_dialogo">"La solicitud se cancelo con éxito"</string>
+    <string name="activity_gestionar_solicitud_str_dialogo_solo_wifi">"Los archivos solo se pueden subir con una conexión a wifi"</string>
+
+    <!-- item historial servicios -->
+    <string name="item_historial_servicios_str_ciudad">BOGOTA</string>
+    <string name="item_historial_servicios_str_despacho">DESPACHO 000 TRIBUNAL ADMINISTRATIVO DE CUNDINAMARCA - SECCION TERCERA</string>
+    <string name="item_historial_servicios_str_numero_proceso">11001 03 27 001 2017 20000 11</string>
+    <string name="item_historial_servicios_str_atender_servicio">Tomar Servicio</string>
+    <string name="item_historial_servicios_str_detalle">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500</string>
+    <string name="item_historial_servicios_str_tipo_servicio">Tipo Servicio</string>
+    <string name="item_historial_servicios_str_fecha">10/10/2017</string>
+    <string name="item_historial_servicios_str_titulo_detalle">Descripción</string>
+    <string name="item_historial_servicios_str_titulo_tiempo_servicio">Tiempo del Servicio</string>
+    <string name="item_historial_servicios_str_titulo_estado">Estado de la Solicitud</string>
+    <string name="item_historial_servicios_str_fecha_asignacion">Fecha Asignación</string>
+    <string name="item_historial_servicios_str_fecha_cumplimiento">Fecha Cumplimiento</string>
+    <string name="item_historial_servicios_str_fecha_aprobacion">Fecha Aprobación</string>
+    <string name="item_historial_servicios_str_fecha_pago">Fecha Pago</string>
+
+    <!-- String fragment acerca de  -->
+    <string name="fragment_acerca_de_str_preguntas_frecuentes">Preguntas Frecuentes</string>
+    <string name="fragment_acerca_de_str_contactenos">Contáctanos</string>
+    <string name="fragment_acerca_de_str_terminos">Terminos y Privacidad</string>
+    <string name="fragment_acerca_de_str_licencias">Licencias</string>
+    <string name="fragment_acerca_de_str_copyright">\u00A9 2018  SmartLawTech. All ringhts reserved</string>
+    <string name="fragment_acerca_de_str_title_bar">Acerca de</string>
+    <string name="menu_item_str_acerca_de">Acerca de</string>
+
+
+    <string name="activity_chat_placeholder_send">Escribe tu mensaje ...</string>
+    <string name="activity_chat_str_bar_title">Chat</string>
+    <string name="activity_chat_str_msm_no_valido">Mensaje no válido</string>
+
+    <string name="menu_activity_gestionar_solicitud_item_str_chat">Chat</string>
+    <string name="fragment_perfil_str_titulo_notificacion">Notificaciones</string>
+    <string name="fragment_perfil_str_notificaciones">Permitir que Dependencia Judicial envié notificaciones a tu dispositivo.</string>
+    <string name="general_actualizando">Actualizando ...</string>
+    <string name="general_sin_notificaciones">Activa las notificaciones para recibir actualizaciones. Perfil > Notificaciones</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_group_str_solicitante">Solicitante</string>
+    <string name="menu_item_str_crear_solicitud">Crear Solicitud</string>
+    <string name="fragment_crear_solicitud_str_bar_title">Crear Solicitud</string>
+    <string name="fragment_crear_solicitud_str_titulo_ubicacion">Ubicación</string>
+    <string name="fragment_crear_solicitud_str_pais">País</string>
+    <string name="fragment_crear_solicitud_str_departamento">Departamento</string>
+    <string name="fragment_crear_solicitud_str_ciudad">Ciudad</string>
+    <string name="fragment_crear_solicitud_str_entidad">Entidad</string>
+    <string name="fragment_crear_solicitud_str_titulo_procesal">Procesal</string>
+    <string name="fragment_crear_solicitud_str_proceso">Proceso</string>
+    <string name="fragment_crear_solicitud_str_solicitud">Solicitud</string>
+    <string name="fragment_crear_solicitud_str_proceso_ciudad">Ciudad</string>
+    <string name="fragment_crear_solicitud_str_despacho">Despacho</string>
+    <string name="fragment_crear_solicitud_str_hint_descripcion">Descripcion de la solicitud ...</string>
+    <string name="fragment_crear_solicitud_str_hint_num_proceso">xxxxxxxxxxxxxxxxxxxxxxx</string>
+    <string name="general_dialogo_cargando">Cargando</string>
+    <string name="title_activity_epanel">ActivityEPanel</string>
+
+
+    <!-- String expansion panels-->
+    <string name="activity_expansion_panel_header">Foo</string>
+    <string name="activity_expansion_panel_second_header">Bar</string>
+    <string name="activity_expansion_panel_content">FooBar</string>
+    <string name="menu_item_str_servicios_masivos">Servicios Masivos</string>
+    <string name="activity_expansion_panel_content_actuacion">Actuacion 1</string>
+    <string name="activity_expansion_panel_content_actuacion_2">Actuacion 2</string>
+    <string name="activity_expansion_panel_content_actuacion_3">Actuacion 3</string>
+    <string name="fragment_servicios_masivos_disponibles_str_bar_title">Servicios Masivos</string>
+
+
+</resources>
+

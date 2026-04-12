@@ -1,0 +1,85 @@
+package com.slt.dependenciajudicial.app;
+
+import android.app.Application;
+//import android.support.multidex.MultiDexApplication;
+import android.util.Log;
+
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.queriable.StringQuery;
+import com.slt.dependenciajudicial.app.database.DependenciaJudicialDataBase;
+import com.slt.dependenciajudicial.app.database.tables.CiudadBD;
+import com.slt.dependenciajudicial.app.database.tables.DepartamentoBD;
+import com.slt.dependenciajudicial.app.database.tables.PaisBD;
+import com.slt.dependenciajudicial.app.database.tables.TipoIdentificacionBD;
+import com.slt.dependenciajudicial.app.database.tables.TipoUsuarioBD;
+import com.slt.dependenciajudicial.utils.FileUtils;
+
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_DEPARTAMENTOBD;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_MUNICIPIOBD1;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_MUNICIPIOBD2;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_MUNICIPIOBD3;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_PAISBD;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_TIPOIDENTIFICACIONBD;
+import static com.slt.dependenciajudicial.app.database.BDUtils.QUERY_INIT_TIPO_USUARIO;
+
+
+/**
+ * Created by Sergio on 10/11/2017.
+ */
+
+public class DependenciaJudicialApplication extends Application {
+//public class DependenciaJudicialApplication extends MultiDexApplication {
+
+    String LOG_ACTIVITY="Application";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        Log.d(LOG_ACTIVITY,"init DependenciaJudicialApplication");
+
+        //Create Folder
+        FileUtils.folderApp();
+
+        //Init DbFlow
+        FlowManager.init(new FlowConfig.Builder(this).build());
+        //FlowManager.getDatabase(DependenciaJudicialDataBase.class).reset();
+
+        //region DbFlow Tables Init Data
+        new Delete().from(TipoIdentificacionBD.class).execute();
+        StringQuery<TipoIdentificacionBD> stringQueryTI = new StringQuery<>(TipoIdentificacionBD.class, QUERY_INIT_TIPOIDENTIFICACIONBD);
+        stringQueryTI.executeInsert();
+
+
+
+      //  new Delete().from(PaisBD.class).execute();
+      /*  StringQuery<PaisBD> stringQueryP = new StringQuery<>(PaisBD.class, QUERY_INIT_PAISBD);
+        stringQueryP.executeInsert(); */
+
+     //   new Delete().from(DepartamentoBD.class).execute();
+     /*    StringQuery<DepartamentoBD> stringQueryD = new StringQuery<>(DepartamentoBD.class, QUERY_INIT_DEPARTAMENTOBD);
+        stringQueryD.executeInsert(); */
+
+       // new Delete().from(CiudadBD.class).execute();
+     /*   StringQuery<CiudadBD> stringQueryM1 = new StringQuery<>(CiudadBD.class, QUERY_INIT_MUNICIPIOBD1);
+        stringQueryM1.executeInsert(); */
+
+      /*  StringQuery<CiudadBD> stringQueryM2 = new StringQuery<>(CiudadBD.class, QUERY_INIT_MUNICIPIOBD2);
+        stringQueryM2.executeInsert();
+
+        StringQuery<CiudadBD> stringQueryM3 = new StringQuery<>(CiudadBD.class, QUERY_INIT_MUNICIPIOBD3);
+        stringQueryM3.executeInsert(); */
+
+        new Delete().from(TipoUsuarioBD.class).execute();
+        StringQuery<TipoUsuarioBD> stringQueryTU = new StringQuery<>(TipoUsuarioBD.class, QUERY_INIT_TIPO_USUARIO);
+        stringQueryTU.executeInsert();
+
+
+        //endregion
+
+        Log.d(LOG_ACTIVITY,"finish DependenciaJudicialApplication");
+
+    }
+}

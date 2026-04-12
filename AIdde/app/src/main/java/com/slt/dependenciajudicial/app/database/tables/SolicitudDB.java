@@ -1,0 +1,147 @@
+package com.slt.dependenciajudicial.app.database.tables;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.slt.dependenciajudicial.app.database.DependenciaJudicialDataBase;
+
+import java.util.List;
+
+/**
+ * Created by Nelsy Acuña on 11/12/2017.
+ */
+@Table(database = DependenciaJudicialDataBase.class)
+public class SolicitudDB extends BaseModel {
+
+
+    @Column
+    @PrimaryKey
+    int iIDSolicitud;
+
+    @Column
+    String tNombreSolicitud;
+
+    @Column
+    Integer iIDTipoSolicitud;
+
+    @Column
+    String tCiudad;
+
+    @Column
+    String tDespacho;
+
+    @Column
+    String tNumeroProceso;
+
+    @Column
+    String tDescripcionSolicitud;
+
+    @Column
+    String dtFechaSolicitud;
+
+    @Column
+    String tUnidadTiempoSolicitudDependiente;
+
+    @Column
+    String tiIDUnidadTiempoDependiente;
+
+    @Column
+    Integer iTiempoSolicitudDependiente;
+
+
+    /*Get and Set*/
+
+    public Integer getiIDSolicitud() {
+        return iIDSolicitud;
+    }
+
+    public void setiIDSolicitud(Integer iIDSolicitud) {
+        this.iIDSolicitud = iIDSolicitud;
+    }
+
+    public String gettNombreSolicitud() {
+        return tNombreSolicitud;
+    }
+
+    public void settNombreSolicitud(String tNombreSolicitud) {
+        this.tNombreSolicitud = tNombreSolicitud;
+    }
+
+    public Integer getiIDTipoSolicitud() {
+        return iIDTipoSolicitud;
+    }
+
+    public void setiIDTipoSolicitud(Integer iIDTipoSolicitud) {
+        this.iIDTipoSolicitud = iIDTipoSolicitud;
+    }
+
+    public String gettCiudad() {
+        return tCiudad;
+    }
+
+    public void settCiudad(String tCiudad) {
+        this.tCiudad = tCiudad;
+    }
+
+    public String gettDespacho() {
+        return tDespacho;
+    }
+
+    public void settDespacho(String tDespacho) {
+        this.tDespacho = tDespacho;
+    }
+
+    public String gettNumeroProceso() {
+        return tNumeroProceso;
+    }
+
+    public void settNumeroProceso(String tNumeroProceso) {
+        this.tNumeroProceso = tNumeroProceso;
+    }
+
+    public String gettDescripcionSolicitud() {
+        return tDescripcionSolicitud;
+    }
+
+    public void settDescripcionSolicitud(String tDescripcionSolicitud) {
+        this.tDescripcionSolicitud = tDescripcionSolicitud;
+    }
+
+    public String getDtFechaSolicitud() {
+        return dtFechaSolicitud;
+    }
+
+    public void setDtFechaSolicitud(String dtFechaSolicitud) {
+        this.dtFechaSolicitud = dtFechaSolicitud;
+    }
+
+    public String gettUnidadTiempoSolicitudDependiente() {
+        return tUnidadTiempoSolicitudDependiente;
+    }
+
+    public void settUnidadTiempoSolicitudDependiente(String tUnidadTiempoSolicitudDependiente) {
+        this.tUnidadTiempoSolicitudDependiente = tUnidadTiempoSolicitudDependiente;
+    }
+
+    public String getTiIDUnidadTiempoDependiente() {
+        return tiIDUnidadTiempoDependiente;
+    }
+
+    public void setTiIDUnidadTiempoDependiente(String tiIDUnidadTiempoDependiente) {
+        this.tiIDUnidadTiempoDependiente = tiIDUnidadTiempoDependiente;
+    }
+
+    public Integer getiTiempoSolicitudDependiente() {
+        return iTiempoSolicitudDependiente;
+    }
+
+    public void setiTiempoSolicitudDependiente(Integer iTiempoSolicitudDependiente) {
+        this.iTiempoSolicitudDependiente = iTiempoSolicitudDependiente;
+    }
+
+}

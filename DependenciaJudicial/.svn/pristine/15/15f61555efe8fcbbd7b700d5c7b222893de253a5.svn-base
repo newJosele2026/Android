@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/menu_group_str_solicitante">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/menu_solicitante_item_mn_crear"
+                    app:actionViewClass="android.widget.TextView"
+                    android:icon="@drawable/ic_action_create_new_folder"
+                    android:title="@string/menu_item_str_crear_solicitud" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_group_str_otras_opciones">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_solicitante_item_mn_configuracion"
+                    android:icon="@drawable/ic_action_user_login"
+                    android:title="@string/menu_item_str_perfil" />
+                <item
+                    android:id="@+id/menu_solicitante_item_mn_acerca_de"
+                    android:icon="@drawable/ic_action_acerca_de"
+                    android:title="@string/menu_item_str_acerca_de" />
+                <item
+                    android:id="@+id/menu_solicitante_item_mn_exit"
+                    android:icon="@drawable/ic_action_exit_to_app"
+                    android:title="@string/menu_item_str_exit" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

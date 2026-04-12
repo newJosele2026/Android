@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/menu_group_str_dependiente">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_servicios_disponibles"
+                    app:actionViewClass="android.widget.TextView"
+                    android:icon="@drawable/ic_action_disponibles"
+                    android:title="@string/menu_item_str_servicios_disponibles" />
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_servicios_evento_procesal_masivo"
+                    app:actionViewClass="android.widget.TextView"
+                    android:icon="@drawable/ic_action_disponibles"
+                    android:title="@string/menu_item_str_servicios_masivos"
+                    />
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_servicios_aceptados"
+                    app:actionViewClass="android.widget.TextView"
+                    android:icon="@drawable/ic_action_aceptados"
+                    android:title="@string/menu_item_str_servicios_aceptados" />
+
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_servicios_historicos"
+                    app:actionViewClass="android.widget.TextView"
+                    android:icon="@drawable/ic_action_historial"
+                    android:title="@string/menu_item_str_servicios_historial" />
+            </group>
+        </menu>
+    </item>
+
+
+    <item android:title="@string/menu_group_str_otras_opciones">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_perfil"
+                    android:icon="@drawable/ic_action_user_login"
+                    android:title="@string/menu_item_str_perfil" />
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_acerca_de"
+                    android:icon="@drawable/ic_action_acerca_de"
+                    android:title="@string/menu_item_str_acerca_de" />
+                <item
+                    android:id="@+id/menu_dependiente_item_mn_exit"
+                    android:icon="@drawable/ic_action_exit_to_app"
+                    android:title="@string/menu_item_str_exit" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

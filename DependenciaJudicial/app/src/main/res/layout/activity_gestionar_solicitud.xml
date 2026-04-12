@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.slt.dependenciajudicial.views.activity.ActivityGestionarSolicitud">
+
+
+    <LinearLayout
+        android:id="@+id/activity_gestionar_solicitud_ly_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/tool_bar" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/view_margin"
+        android:layout_above="@+id/activity_gestionar_solicitud_ly_bottom"
+        android:layout_below="@+id/activity_gestionar_solicitud_ly_top">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/activity_gestionar_solicitud_ly_no_soportes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_insert_drive_file" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_gestionar_solicitud_str_no_archivos"
+                        android:textAlignment="center"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_gestionar_solicitud_rv_soportes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_gestionar_solicitud_ly_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/view_margin"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/activity_gestionar_solicitud_btn_adjuntar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_attach_file"
+                android:drawablePadding="-30dp"
+                android:drawableStart="@drawable/ic_action_attach_file"
+                android:text="@string/activity_gestionar_solicitud_str_adjuntar_archivo"
+                android:textColor="@color/windowBackground"
+                android:theme="@style/DependenciaJudicialButtonDark" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/view_margin"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/activity_gestionar_solicitud_btn_cancelar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawablePadding="-10dp"
+                android:drawableStart="@drawable/ic_action_cancel"
+                android:text="@string/activity_gestionar_solicitud_str_cancelar"
+                android:textColor="@color/windowBackground"
+                android:theme="@style/DependenciaJudicialButtonCancelar" />
+
+            <Button
+                android:id="@+id/activity_gestionar_solicitud_btn_cumplir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:drawableLeft="@drawable/ic_action_send"
+                android:drawablePadding="-30dp"
+                android:drawableStart="@drawable/ic_action_send"
+                android:text="@string/activity_gestionar_solicitud_str_cumplido"
+                android:textColor="@color/windowBackground"
+                android:theme="@style/DependenciaJudicialButton" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

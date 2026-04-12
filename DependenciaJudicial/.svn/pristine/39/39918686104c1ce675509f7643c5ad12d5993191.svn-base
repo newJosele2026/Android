@@ -1,0 +1,633 @@
+package com.slt.dependenciajudicial.utils;
+
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.MenuItemCompat;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.widget.TextView;
+
+import com.slt.dependenciajudicial.R;
+import com.slt.dependenciajudicial.app.Preferences;
+
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoPeriod;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by Sergio on 26/10/2017.
+ */
+
+public class DependenciaJudicialUtils {
+
+    private static final String LOG_ACTIVITY = "Dep.Jud.Utils";
+
+    public final static String NAME_COLLECTION_PREFERENCES = "DependenciaJudicialPreferences";
+
+
+    //Name SharedPreferences
+
+    public final static String SP_IIDDJUSUARIO = "SP_IIDDJUSUARIO";
+    public final static String SP_TOKEN = "SP_TOKEN";
+    public final static String SP_PRIMER_NOMBRE = "SP_PRIMER_NOMBRE";
+    public final static String SP_PRIMER_APELLIDO = "SP_PRIMER_APELLIDO";
+    public final static String SP_SEGUNDO_NOMBRE = "SP_SEGUNDO_NOMBRE";
+    public final static String SP_SEGUNDO_APELLIDO = "SP_SEGUNDO_APELLIDO";
+    public final static String SP_NOMBRE_USUARIO = "SP_NOMBRE_USUARIO";
+    public final static String SP_NUMERO_DOCUMENTO = "SP_NUMERO_DOCUMENTO";
+    public final static String SP_TIPO_DOCUMENTO = "SP_TIPO_DOCUMENTO";
+    public final static String SP_ID_TIPO_DOCUMENTO = "SP_ID_TIPO_DOCUMENTO";
+    public final static String SP_FECHA_EXP_DOCUMENTO = "SP_FECHA_EXP_DOCUMENTO";
+    public final static String SP_CELULAR = "SP_CELULAR";
+    public final static String SP_EMAIL = "SP_EMAIL";
+    public final static String SP_TIPO_USUARIO = "SP_TIPO_USUARIO";
+    public final static String SP_ID_TIPO_USUARIO = "SP_ID_TIPO_USUARIO";
+    public final static String SP_CURRENT_SCREEN = "SP_CURRENT_SCREEN";
+    public final static String SP_APP_STATE = "SP_APP_STATE";
+    public final static String SP_IIDSOLICITUD_TEM = "SP_IIDSOLICITUD_TEM";
+    public final static String SP_CONFIGURACION_RED_MOVIL = "SP_CONFIGURACION_RED_MOVIL";
+    public final static String SP_NOTIFICACIONES = "SP_NOTIFICACIONES";
+
+    //Pantallas del app
+    public final static String APP_SCREEN_FRAGMENT_PERFIL = "FragmentPerfil";
+    public final static String APP_SCREEN_FRAGMENT_SERVICIOS_DISPONIBLES = "FragmentServiciosDisponibles";
+    public final static String APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS = "FragmentServiciosAceptados";
+    public final static String APP_SCREEN_FRAGMENT_HISTORIAL_SERVICIOS = "FragmentHistorialServicios";
+    public final static String APP_SCREEN_FRAGMENT_ACERCA_DE = "FragmentAcercaDe";
+    public final static String APP_SCREEN_FRAGMENT_CREAR_SOLICITUD= "FragmentCrearSolicitud";
+    public final static String APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD = "ActivityGestionarSolicitud";
+    public final static String APP_SCREEN_ACTIVITY_CHAT = "ActivityChat";
+
+    //Estados  del app
+    public final static String APP_STATE_ON = "ON";
+    public final static String APP_STATE_OFF = "OFF";
+
+    //Code iAccion
+    public final static String APP_CODE_ACCION_FCM_PRUEBA = "0";
+    public final static String APP_CODE_ACCION_FCM_NUEVO_SERVICIO = "1";
+    public final static String APP_CODE_ACCION_FCM_RECORDATORIO_SERVICIO_DISPONIBLE = "2";
+    public final static String APP_CODE_ACCION_FCM_SERVICIO_ASIGNACION = "3";
+    public final static String APP_CODE_ACCION_FCM_CHAT = "4";
+
+    //public final static String APP_CODE_ACCION_FCM_NUEVO_SERVICIO_HILO = "2";
+
+    //Code Bundle Extra
+    public final static String SP_EXTRA_ADD_BAG_ALERT_SOLICITUD_SERVICIO = "EXTRA_ADD_BAG_ALERT_SOLICITUD_SERVICIO";
+    public final static String SP_EXTRA_ADD_BAG_ALERT_ACEPTACION_SERVICIO = "EXTRA_ADD_BAG_ALERT_ACEPTACION_SERVICIO";
+    public final static String SP_EXTRA_ADD_BAG_ALERT_CHAT = "EXTRA_ADD_BAG_ALERT_CHAT";
+
+    //SnackBar custom time
+    public static final Integer LONG_SNACKBAR = 8000;
+
+    //Otros datos
+    public final static String[] arrTiempo = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+    public final static String[] arrUnidad = {"Minutos", "Horas", "Días"};
+    public final static String CODE_CHAT = "500";
+    public final static String[] strDays = new String[]{
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sabado"};
+
+
+    public static String currencyFormat(Integer s) {
+
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(',');
+        String pattern = "$#,##0.###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
+
+        return decimalFormat.format(s);
+    }
+
+    // Metodo que valida si el dispositivo esta conectado por WIFI
+    public static boolean isConnectedWifi(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    // Metodo que valida si un teléfono esta conectado por DATOS (3G,4G, etc)
+    public static boolean isConnectedMobile(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+    }
+
+    //Metodo que valida si el telefo esta conectado a un proveedor de internet (WIFI ,DATOS)
+    public static boolean isConnected(Context context) {
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
+
+    //Metodo que valida si el token de sesion es valido
+    public static boolean isSesion(Activity activity) {
+
+        String token = Preferences.getPreferences(activity, DependenciaJudicialUtils.SP_TOKEN);
+
+
+        if (!token.equals("")) {
+
+            Date dtExpired = Preferences.getTokenDataExpired(Preferences.getPreferences(activity, DependenciaJudicialUtils.SP_TOKEN));
+
+            Log.d(LOG_ACTIVITY, "dtExpired:" + dtExpired);
+            Log.d(LOG_ACTIVITY, "Date:" + new Date());
+
+            if (dtExpired != null) {
+                if (dtExpired.before(new Date())) {
+
+                    Log.d(LOG_ACTIVITY, "Token existe pero ya expiro");
+
+                    //Token existe pero ya expiro
+                    Preferences.clearPreferences(activity);
+                    return false;
+                } else {
+
+                    Log.d(LOG_ACTIVITY, "Sesion valida");
+
+                    //Sesion valida
+                    return true;
+                }
+
+            } else {
+
+                Log.d(LOG_ACTIVITY, "Error al consultar la fecha");
+                //Error al consultar la fecha
+                Preferences.clearPreferences(activity);
+                return false;
+            }
+
+        } else {
+
+            Log.d(LOG_ACTIVITY, "Los datos de sesion no estan");
+            //Los datos de sesion no estan
+            Preferences.clearPreferences(activity);
+            return false;
+        }
+
+    }
+
+    //Metodo que valida si el texto es un email valido
+    public static boolean isEmailValid(String email) {
+        String regExpn = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if (matcher.matches()) {
+
+            Log.d(LOG_ACTIVITY, "isEmailValid: Si");
+            return true;
+        } else {
+            Log.d(LOG_ACTIVITY, "isEmailValid: No");
+            return false;
+        }
+
+
+    }
+
+    //Metodo que valida si una contraseña cumple con la expresion regular
+    public static boolean isPasswordValid(String pass) {
+        String regExpn = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$";
+
+        CharSequence inputStr = pass;
+
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if (matcher.matches()) {
+
+            Log.d(LOG_ACTIVITY, "isPasswordValid: Si");
+            return true;
+        } else {
+            Log.d(LOG_ACTIVITY, "isPasswordValid: No");
+            return false;
+        }
+
+
+    }
+
+    //Metodo que actualiza el badge del NavigationView
+    public static void showMenuCountBag(Activity activity, NavigationView navigationView, Integer idMenu, String count) {
+
+        TextView recorder = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(idMenu));
+
+        recorder.setGravity(Gravity.CENTER_VERTICAL);
+        recorder.setTypeface(null, Typeface.BOLD);
+        recorder.setTextColor(activity.getResources().getColor(R.color.colorAccent));
+        recorder.setText(count);
+
+    }
+
+    // Metodo que permite visualizar todas los extras del Bundle
+    public static String bundle2string(Bundle bundle) {
+        if (bundle == null) {
+            return null;
+        }
+        String string = "{";
+        for (String key : bundle.keySet()) {
+            string += " " + key + " => " + bundle.get(key) + ";";
+        }
+        string += " }";
+        return string;
+    }
+
+    //Metodo que limpia las notificaciones del dispositivo
+    public static void clearNotificacion(Context activity, String code) {
+
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) activity.getSystemService(ns);
+        nMgr.cancel(Integer.parseInt(code));
+
+    }
+
+    //Metodo que retorna una fecha formateada en dd/MM/yyyy HH:mm:ss
+    public static String getFormatoFechaDateTime(String strDate) {
+
+        String result = " - ";
+
+        Log.d(LOG_ACTIVITY, "strDate:" + strDate);
+
+        if (!strDate.equals("")) {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            try {
+                date = formatter.parse(strDate);
+
+                Log.d(LOG_ACTIVITY, "date:" + date.toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                date = null;
+            }
+
+            if (date != null) {
+
+                result = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
+
+                Log.d(LOG_ACTIVITY, "result:" + result);
+
+                return result;
+            } else {
+                return result;
+            }
+
+        } else {
+
+            return result;
+        }
+
+    }
+
+    //Metodo que retorna una fecha formateada en dd/MM/yyyy
+    public static String getFormatoFechaDate(String strDate) {
+
+        String result = " - ";
+
+        Log.d(LOG_ACTIVITY, "strDate:" + strDate);
+
+        if (!strDate.equals("")) {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            try {
+                date = formatter.parse(strDate);
+
+                Log.d(LOG_ACTIVITY, "date:" + date.toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                date = null;
+            }
+
+            if (date != null) {
+
+                result = new SimpleDateFormat("dd/MM/yyyy").format(date);
+
+                Log.d(LOG_ACTIVITY, "result:" + result);
+
+                return result;
+            } else {
+                return result;
+            }
+
+        } else {
+
+            return result;
+        }
+
+    }
+
+    //Metodo que pasa un string a fecha
+    public static Date getDateString(String strDate) {
+
+        Date date = null;
+
+        if (!strDate.equals("")) {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+
+                date = formatter.parse(strDate);
+                Log.d(LOG_ACTIVITY, "date:" + date.toString());
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                date = null;
+            }
+        }
+
+        return date;
+    }
+
+    //Metodo que calcual cuanto tiempo hay entre una fecha y otra
+    public static String calcularDiferenciaFechasString(Date fechaInicio, Date fechaFin) {
+
+
+        int diferencia = (int) ((fechaFin.getTime() - fechaInicio.getTime()) / 1000);
+
+        int dias = 0;
+        int horas = 0;
+        int minutos = 0;
+        if (diferencia > 86400) {
+            dias = (int) Math.floor(diferencia / 86400);
+            diferencia = diferencia - (dias * 86400);
+        }
+        if (diferencia > 3600) {
+            horas = (int) Math.floor(diferencia / 3600);
+            diferencia = diferencia - (horas * 3600);
+        }
+        if (diferencia > 60) {
+            minutos = (int) Math.floor(diferencia / 60);
+            diferencia = diferencia - (minutos * 60);
+        }
+        //"Hay "+dias+" dias, "+horas+" horas, "+minutos+" minutos y "+diferencia+" segundos de diferencia";
+
+        //"Días:<b>" + dias + "</b> Horas:<b>" + horas + "</b> Min:<b>" + minutos + " Seg:<b>" + diferencia+"</b>"
+
+        //"Días:<b>" + dias + "</b> Horas:<b>" + horas + "</b> Min:<b>" + minutos + " Seg:<b>" + diferencia + "</b>"
+
+        String result = "";
+        if (dias != 0) {
+
+            result = (dias == 1 ? "<b>" + dias + "</b> día " : "<b>" + dias + "</b> días");
+        } else if (horas != 0) {
+            result = horas == 1 ? "<b>" + horas + "</b> hora " : "<b>" + horas + "</b> horas";
+        } else if (minutos != 0) {
+            result = minutos == 1 ? "<b>" + minutos + "</b> minuto " : "<b>" + minutos + "</b> minutos";
+        }
+
+        return !result.equals("") ? "Vigencia de " + result : "Expirado";
+
+
+    }
+
+    // Calcula la direfencia entre 2 fechas en segundos
+    public static long calcularDiferenciaFechasSegundos(Date fechaInicio, Date fechaFin) {
+
+        long milis1, milis2, diff;
+
+        Calendar cinicio = Calendar.getInstance();
+        Calendar cfinal = Calendar.getInstance();
+
+        //ESTABLECEMOS LA FECHA DEL CALENDARIO CON EL DATE GENERADO ANTERIORMENTE
+        cinicio.setTime(fechaInicio);
+        cfinal.setTime(fechaFin);
+
+
+        milis1 = cinicio.getTimeInMillis();
+
+        milis2 = cfinal.getTimeInMillis();
+
+
+        diff = milis2 - milis1;
+
+        if (diff >= 0) {
+            Log.d(LOG_ACTIVITY, "diff:" + (diff));
+
+            // calcular la diferencia en segundos
+
+            long diffSegundos = Math.abs(diff / 1000);
+
+
+            // calcular la diferencia en minutos
+
+            long diffMinutos = Math.abs(diff / (60 * 1000));
+
+
+            long restominutos = diffMinutos % 60;
+
+
+            // calcular la diferencia en horas
+
+            long diffHoras = (diff / (60 * 60 * 1000));
+
+
+            // calcular la diferencia en dias
+
+            long diffdias = Math.abs(diff / (24 * 60 * 60 * 1000));
+
+            return diffSegundos;
+
+
+        } else {
+            return 0;
+        }
+
+
+    }
+
+    // Calcula la direfencia entre 2 fechas en segundos
+    public static long calcularDiferenciaFechasDias(Date fechaInicio, Date fechaFin) {
+
+        long milis1, milis2, diff;
+
+        Calendar cinicio = Calendar.getInstance();
+        Calendar cfinal = Calendar.getInstance();
+
+        //ESTABLECEMOS LA FECHA DEL CALENDARIO CON EL DATE GENERADO ANTERIORMENTE
+        cinicio.setTime(fechaInicio);
+        cfinal.setTime(fechaFin);
+
+
+        milis1 = cinicio.getTimeInMillis();
+
+        milis2 = cfinal.getTimeInMillis();
+
+
+        diff = milis2 - milis1;
+
+        if (diff >= 0) {
+            Log.d(LOG_ACTIVITY, "diff:" + (diff));
+
+            // calcular la diferencia en segundos
+
+            long diffSegundos = Math.abs(diff / 1000);
+
+
+            // calcular la diferencia en minutos
+
+            long diffMinutos = Math.abs(diff / (60 * 1000));
+
+
+            long restominutos = diffMinutos % 60;
+
+
+            // calcular la diferencia en horas
+
+            long diffHoras = (diff / (60 * 60 * 1000));
+
+
+            // calcular la diferencia en dias
+
+            long diffdias = Math.abs(diff / (24 * 60 * 60 * 1000));
+
+            return diffdias;
+
+
+        } else {
+            return 0;
+        }
+
+
+    }
+
+    // MEtodo que suma minutos a una fecha
+    public static Date sumarMinutosFecha(Date fecha, int dias) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+        calendar.add(Calendar.MINUTE, dias);  // numero de días a añadir, o restar en caso de días<0
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+
+    }
+
+    // Metodo que toma la unidad de tiempo y el tiempo y lo pasa a minutos
+    public static int pasarTiempoSolicitudMinutos(Integer iTiempo, String tUnidad) {
+
+        int minutos = 0;
+
+        if (tUnidad.equals("1")) {
+            minutos = iTiempo;
+        } else if (tUnidad.equals("2")) {
+            minutos = iTiempo * 60;
+        } else if (tUnidad.equals("3")) {
+            minutos = iTiempo * 60 * 24;
+        }
+        return minutos;
+    }
+
+    public static int getPixelValue(Context context, int dimenId) {
+        Resources resources = context.getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dimenId,
+                resources.getDisplayMetrics()
+        );
+    }
+
+    // Metodo que formatea una fecha
+    public static String generalDateFormatter(Date dtFecha,String sFormatter){
+
+        SimpleDateFormat formateador = new SimpleDateFormat(sFormatter);
+        return formateador.format(dtFecha);
+    }
+
+    // Metodo que retorna la fecha formateada en la que un menjase fue escrito
+    public static String dateDiffFormater(Date dtFecha){
+
+        Integer iDias = 6;
+        Date dtCurrentDate = new Date();
+        String tResult = "";
+
+        // Sumar dias a la fecha
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dtFecha); // Configuramos la fecha que se recibe
+        calendar.add(Calendar.DAY_OF_YEAR, iDias);
+
+        Log.d(LOG_ACTIVITY,"calendar.getTime :"+calendar.getTime());
+
+
+        // Validar que la fecha actual no sea mayor a la fecha sumada
+        if(dtCurrentDate.before(calendar.getTime())){
+
+            Log.d(LOG_ACTIVITY,"Fecha del mensaje  no es superior a 6 dias ");
+            Log.d(LOG_ACTIVITY,"Diferencia entre fechas "+calcularDiferenciaFechasDias(dtFecha,dtCurrentDate));
+            //Fecha Actual no superior a 6 dias
+            //validar si la fecha actual es la mismo que la fecha de hoy
+            switch ( (int)calcularDiferenciaFechasDias(dtFecha,dtCurrentDate)){
+
+                case 0: //hoy
+
+                    tResult = "Hoy a las "+ generalDateFormatter(dtFecha,"HH:mm:ss");
+
+                    break;
+
+                case 1: //ayer
+                    tResult = "Ayer a las "+ generalDateFormatter(dtFecha,"HH:mm:ss");
+                    break;
+
+                default: // otro dia
+
+                    Calendar now = Calendar.getInstance();
+                    now.setTime(dtFecha);
+                    String strDiaSemana = strDays[now.get(Calendar.DAY_OF_WEEK) - 1];
+                    strDiaSemana = strDiaSemana.substring(0,3);
+
+                    tResult = strDiaSemana +" "+ generalDateFormatter(dtFecha,"HH:mm:ss");
+                    break;
+
+
+            }
+
+        }else{
+            Log.d(LOG_ACTIVITY,"Fecha del mensaje es superior a 6 dias ");
+            //Fecha Actual mayor a 6 dias
+            tResult = generalDateFormatter(dtFecha,"dd/MM/yyyy HH:mm:ss");
+
+        }
+
+
+        Log.d(LOG_ACTIVITY,"tResult :"+tResult);
+
+        return tResult;
+    }
+
+
+}

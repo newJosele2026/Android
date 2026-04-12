@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_dimen_elevation">4dp</dimen>
+    <dimen name="card_dimen_elevation">4dp</dimen>
+    <dimen name="card_dimen_margin">1dp</dimen>
+    <dimen name="card_dimen_margin_padding">4dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="dialog_title_dimen_margin">8dp</dimen>
+    <dimen name="cameraheight">150dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="navigation_icon_size">48dp</dimen>
+
+
+    <dimen name="spinner_dimen_item_padding">2dp</dimen>
+    <dimen name="spinner_dimen_font_size">20sp</dimen>
+    <dimen name="fragment_perfil_dimen_divider_margin">4dp</dimen>
+    <dimen name="fragment_perfil_dimen_divider_height">2dp</dimen>
+    <dimen name="general_dimen_font_size_titulo">20sp</dimen>
+    <dimen name="munu_counter_radius">20dp</dimen>
+
+    <dimen name="item_servicios_disponibles_dimen_font_size_num_proceso">20sp</dimen>
+    <dimen name="item_servicios_disponibles_dimen_font_size_tipo_servicio">18sp</dimen>
+    <dimen name="item_servicios_disponibles_diment_font_size_fecha">10sp</dimen>
+
+    <dimen name="view_margin">4dp</dimen>
+    <dimen name="view_divider_height">2dp</dimen>
+
+    <dimen name="item_servicios_aceptados_dimen_font_size_num_proceso">20sp</dimen>
+    <dimen name="item_servicios_aceptados_dimen_font_size_tipo_servicio">18sp</dimen>
+    <dimen name="item_servicios_aceptados_diment_font_size_fecha">10sp</dimen>
+
+    <dimen name="item_soportes_diment_nombre_archivo">6sp</dimen>
+
+    <dimen name="item_historial_servicios_dimen_font_size_num_proceso">20sp</dimen>
+    <dimen name="item_historial_servicios_dimen_font_size_tipo_servicio">18sp</dimen>
+    <dimen name="item_historial_servicios_diment_font_size_fecha">10sp</dimen>
+    <dimen name="fragment_perfil_dimen_size_text">18sp</dimen>
+    <dimen name="fragment_acerca_de_dimen_copyright">10sp</dimen>
+    <dimen name="fragment_acerca_de_dimen_text">18sp</dimen>
+    <dimen name="chat_margin">32dp</dimen>
+    <dimen name="chat_card_elevation">4dp</dimen>
+    <dimen name="chat_card_corner_radius">10dp</dimen>
+    <dimen name="chat_item_margin">8dp</dimen>
+    <dimen name="chat_item_date_font_size">8sp</dimen>
+
+    <dimen name="fragment_crear_solicitud_dimen_divider_margin">4dp</dimen>
+    <dimen name="fragment_crear_solicitud_dimen_divider_height">2dp</dimen>
+    <dimen name="relative_layout_expansion_panel">48dp</dimen>
+    <dimen name="relative_layout_expansion_panel_l">16dp</dimen>
+    <dimen name="relative_layout_expansion_panel_r">16dp</dimen>
+    <dimen name="txt_view_layout_expansion_panel_ml">120dp</dimen>
+    <dimen name="txt_view_layout_expansion_panel_ml_2">130dp</dimen>
+    <dimen name="image_view_vector">16dp</dimen>
+    <dimen name="img_pdf_test">16dp</dimen>
+    <dimen name="relative_layout_expansion_panel_t">16dp</dimen>
+    <dimen name="relative_layout_expansion_panel_b">16dp</dimen>
+
+
+</resources>

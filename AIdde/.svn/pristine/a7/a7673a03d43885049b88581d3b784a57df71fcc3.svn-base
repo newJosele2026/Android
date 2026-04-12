@@ -1,0 +1,935 @@
+package com.slt.dependenciajudicial.views.activity;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.esafirm.imagepicker.features.ImagePicker;
+import com.esafirm.imagepicker.model.Image;
+import com.github.juanlabrador.badgecounter.BadgeCounter;
+//import com.gun0912.tedpicker.Config;
+//import com.gun0912.tedpicker.ImagePickerActivity;
+import com.slt.dependenciajudicial.R;
+import com.slt.dependenciajudicial.app.Preferences;
+import com.slt.dependenciajudicial.requests.SOService;
+import com.slt.dependenciajudicial.requests.models.BasicRequestModel;
+import com.slt.dependenciajudicial.requests.models.SoportesModel;
+import com.slt.dependenciajudicial.requests.settings.ApiUtils;
+import com.slt.dependenciajudicial.utils.DependenciaJudicialUtils;
+import com.slt.dependenciajudicial.utils.FileUtils;
+import com.slt.dependenciajudicial.utils.PdfUtils;
+import com.slt.dependenciajudicial.utils.callback.CallbackCreatePdf;
+import com.slt.dependenciajudicial.utils.callback.CallbackRVSoportes;
+import com.slt.dependenciajudicial.views.adapters.RVAdapterSoportes;
+import com.slt.dependenciajudicial.views.asyn.AsynCreatePdf;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.slt.dependenciajudicial.app.Preferences.savePreferences;
+import static com.slt.dependenciajudicial.requests.settings.ApiUtils.CODE_SESION_EXPIRE;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_CONFIGURACION_RED_MOVIL;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_CURRENT_SCREEN;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_IIDDJUSUARIO;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_IIDSOLICITUD_TEM;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_TOKEN;
+
+public class ActivityGestionarSolicitud extends AppCompatActivity {
+
+    private static final String LOG_ACTIVITY = "ActivityGSolicitud";
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    private static final int INTENT_REQUEST_GET_IMAGES_RC = 3000;
+
+    private static final int PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT = 1;
+    private RVAdapterSoportes adapter;
+    private List<SoportesModel> soportesModels;
+    private SOService apiService;
+    private Call<BasicRequestModel> callCumplirSolicitud;
+    private MaterialDialog mdProgress;
+
+    //region Init Views
+
+    @BindView(R.id.tool_bar)
+    Toolbar toolbar;
+
+    @BindView(R.id.activity_gestionar_solicitud_rv_soportes)
+    RecyclerView rvSoportes;
+
+
+    @BindView(R.id.activity_gestionar_solicitud_ly_no_soportes)
+    LinearLayout lyNoSoportes;
+
+    //endregion
+
+    //region Init String
+
+    @BindString(R.string.general_permisos_insuficientes)
+    String strPermisosInsuficientes;
+
+    @BindString(R.string.activity_image_piker_str_dialog_title)
+    String strImagePikerDialogTitle;
+
+    @BindString(R.string.activity_image_piker_str_dialog_content)
+    String strImagePikerDialogContent;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_bar_title)
+    String strBarTitle;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_eliminar_title)
+    String strDialogoEliminarTitle;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_eliminar_eliminar)
+    String strDialogoEliminarBtnEliminar;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_eliminar_cancelar)
+    String strDialogoEliminarBtnCancelar;
+
+    @BindString(R.string.general_dialogo_btn_ok)
+    String strDialogoGeneralBtnok;
+
+    @BindString(R.string.general_dialogo_titulo)
+    String strDialogoGeneralTitulo;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_cumplir_btn_dialogo_contenido)
+    String strBtnDialogoCumplirContenido;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_progress_cumplir_contenido)
+    String strProgressBntCumplirContenido;
+
+    @BindString(R.string.general_sin_conexion)
+    String strGeneralSinConexion;
+
+    @BindString(R.string.general_sin_conexion_servidor)
+    String strGeneralSinConexionServidor;
+
+    @BindString(R.string.general_sesion_finalizada)
+    String strGeneralSesionFinalizada;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_cumplir_cumplido)
+    String strDialogCumplirCumplido;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_cumplir_file_error)
+    String strDialogCumplirFileError;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_cumplir_estado_error)
+    String strDialogCumplirEstadoError;
+
+    @BindString(R.string.general_dialogo_btn_volver)
+    String strGeneralDialogoBtnVolver;
+
+    @BindString(R.string.general_dialogo_btn_confirmar)
+    String strGeneralDialogoBtnConfirmar;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_cancelar_contenido)
+    String strDialogoCancelarContenido;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_eliminar_contenido)
+    String strDialogoEliminarContenido;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_progress_cancelar_solicitud)
+    String strProgressCancelar;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo)
+    String strDialogoCancelarCancelado;
+
+    @BindString(R.string.activity_gestionar_solicitud_str_dialogo_solo_wifi)
+    String strDialogoSoloWifi;
+
+
+    //endregion
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gestionar_solicitud);
+        ButterKnife.bind(this);
+
+        soportesModels = new ArrayList<>();
+        apiService = ApiUtils.getSOService();
+        setupToolbar(strBarTitle + " " + Preferences.getPreferences(this, SP_IIDSOLICITUD_TEM), true);
+        setupPermisos();
+        setupRVServicios();
+        setupProgressDialog();
+
+    }
+
+    public List<SoportesModel> obtenerSoportesUsuarioSolicitud() {
+
+        List<SoportesModel> soportesModels = new ArrayList<>();
+        String path = FileUtils.folderApp() + Preferences.getPreferences(this, SP_IIDDJUSUARIO) + "/" + Preferences.getPreferences(this, SP_IIDSOLICITUD_TEM) + "/";
+        soportesModels = FileUtils.getListFileFolder(path, soportesModels);
+        return soportesModels;
+    }
+
+    public void setupToolbar(String tittle, boolean upButton) {
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(tittle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
+
+
+    }
+
+    private void setupPermisos() {
+
+        // Get runtime permissions if build version >= Android M
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if ((ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) ||
+                    (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                            != PackageManager.PERMISSION_GRANTED) ||
+                    (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED)) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
+            }
+        }
+
+    }
+
+    private void setupRVServicios() {
+
+        //Obtener datos de los servicios disponibles
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        // rvServicios.setHasFixedSize(true);
+        rvSoportes.setLayoutManager(llm);
+
+
+        CallbackRVSoportes callbackRVSoportes = new CallbackRVSoportes() {
+
+
+            @Override
+            public void onCallbackSoportesTouchContent(SoportesModel soportesModel) {
+
+
+                if (soportesModel.gettExtension().equals("pdf")) {
+
+                    PdfUtils.openIntentPdf(ActivityGestionarSolicitud.this, soportesModel.gettPath());
+                }
+
+            }
+
+            @Override
+            public void onCallbackSoportesBtnDelete(final SoportesModel soportesModel) {
+
+                new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                        .title(strDialogoEliminarTitle)
+                        .content(strDialogoEliminarContenido + " " + soportesModel.gettNombreArchivo())
+                        .positiveText(strDialogoEliminarBtnEliminar)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                // TODO
+
+                                FileUtils.deleteFile(soportesModel.gettPath());
+
+                                soportesModels = obtenerSoportesUsuarioSolicitud();
+                                getUpdateListSoportesModel();
+
+                            }
+                        })
+                        .negativeText(strDialogoEliminarBtnCancelar)
+                        .show();
+
+            }
+        };
+
+        adapter = new RVAdapterSoportes(this, soportesModels, callbackRVSoportes);
+        rvSoportes.setAdapter(adapter);
+    }
+
+    private void getUpdateListSoportesModel() {
+
+        adapter.updateRVAdapterSoportes(soportesModels);
+
+        if (soportesModels != null && soportesModels.size() != 0)
+            lyNoSoportes.setVisibility(View.GONE);
+        else
+            lyNoSoportes.setVisibility(View.VISIBLE);
+
+
+    }
+
+    @OnClick(R.id.activity_gestionar_solicitud_btn_adjuntar)
+    public void onClickBtnAdjuntarSoporte(View v) {
+
+        // Check if permissions are granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA},
+                        PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT);
+            } else {
+                getImages();
+            }
+        } else {
+            getImages();
+        }
+
+
+    }
+
+    @OnClick(R.id.activity_gestionar_solicitud_btn_cumplir)
+    public void onClickBtnCumplir(final View view) {
+
+        if (DependenciaJudicialUtils.isConnected(this)) {
+
+            if (soportesModels != null && soportesModels.size() != 0) {
+
+
+                Log.d(LOG_ACTIVITY, "SP_CONFIGURACION_RED_MOVIL:" + Preferences.getPreferences(this, SP_CONFIGURACION_RED_MOVIL));
+                if (Preferences.getPreferences(this, SP_CONFIGURACION_RED_MOVIL).equals("0")) {
+
+                    Log.d(LOG_ACTIVITY, "Cualquier conexion");
+
+                    cumplirEvent(view);
+
+                } else {
+
+                    Log.d(LOG_ACTIVITY, "Solo wifi");
+                    if (DependenciaJudicialUtils.isConnectedWifi(this)) {
+
+                        Log.d(LOG_ACTIVITY, "Hay wifi");
+                        cumplirEvent(view);
+
+                    } else {
+
+                        Log.d(LOG_ACTIVITY, "no hay wifi");
+                        new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                                .title(strDialogoGeneralTitulo)
+                                .content(strDialogoSoloWifi)
+                                .positiveText(strDialogoGeneralBtnok)
+                                .show();
+                    }
+
+                }
+
+
+            } else {
+
+                new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                        .title(strDialogoGeneralTitulo)
+                        .content(strBtnDialogoCumplirContenido)
+                        .positiveText(strDialogoGeneralBtnok)
+                        .show();
+
+            }
+
+
+        } else {
+
+
+            Snackbar.make(view, strGeneralSinConexion, Snackbar.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void cumplirEvent(final View view) {
+
+        showProgressDialog(strProgressBntCumplirContenido);
+
+        //Subir archivos
+        List<MultipartBody.Part> parts = new ArrayList<>();
+
+        int countPart = 0;
+
+        for (SoportesModel soportesModel : soportesModels) {
+            parts.add(prepareFilePart("part" + countPart, soportesModel.gettPath()));
+            ++countPart;
+        }
+
+
+        RequestBody requestBody = createPartFromString(Preferences.getPreferences(ActivityGestionarSolicitud.this, SP_IIDSOLICITUD_TEM));
+
+        String tToken = Preferences.getPreferences(ActivityGestionarSolicitud.this, SP_TOKEN);
+
+        callCumplirSolicitud = apiService.CumplirSolicitud(tToken, requestBody, parts);
+
+        callCumplirSolicitud.enqueue(new Callback<BasicRequestModel>() {
+            @Override
+            public void onResponse(Call<BasicRequestModel> call, Response<BasicRequestModel> response) {
+
+                dissProgressDialog();
+
+                if (response.isSuccessful()) {
+
+                    Log.d(LOG_ACTIVITY, "response.isSuccessful():" + response.isSuccessful());
+
+                    if (response.code() != CODE_SESION_EXPIRE) {
+
+                        Log.d(LOG_ACTIVITY, "response.code():" + response.code());
+
+                        if (response.body() != null && response.body().getToken() != null) {
+
+                            Preferences.savePreferences(ActivityGestionarSolicitud.this, DependenciaJudicialUtils.SP_TOKEN, response.body().getToken());
+
+                            Log.d(LOG_ACTIVITY, "response.body().getResult():" + response.body().getResult());
+
+                            switch (response.body().getResult()) {
+                                case 1: // Todo Ok
+
+                                    //mensaje de ok
+                                    new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                                            .title(strDialogoGeneralTitulo)
+                                            .content(strDialogCumplirCumplido)
+                                            .positiveText(strDialogoGeneralBtnok)
+                                            .cancelable(false)
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+
+                                    break;
+                                case 2: // Error al subir Archivos
+
+                                    //Mensaje de error en el servidor
+                                    new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                                            .title(strDialogoGeneralTitulo)
+                                            .content(strDialogCumplirFileError)
+                                            .positiveText(strDialogoGeneralBtnok)
+                                            .show();
+
+                                    break;
+                                case 3: //Error al actualizar el estado
+
+                                    //Mensaje de no se pudo actualizar
+                                    new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                                            .title(strDialogoGeneralTitulo)
+                                            .content(strDialogCumplirEstadoError)
+                                            .positiveText(strDialogoGeneralBtnok)
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+                                    break;
+                                case 4: //Error de token en el servidor
+
+                                    Preferences.savePreferences(ActivityGestionarSolicitud.this, SP_TOKEN, "");
+                                    finish();
+                                    break;
+                            }
+
+
+                        } else {
+
+                            Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                        }
+
+                    } else {
+
+                        //el token ya vencio
+                        Preferences.savePreferences(ActivityGestionarSolicitud.this, SP_TOKEN, "");
+                        finish();
+
+                    }
+
+
+                } else {
+
+
+                    Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<BasicRequestModel> call, Throwable t) {
+
+
+                Log.d(LOG_ACTIVITY, "call.isCanceled()" + call.isCanceled());
+
+                dissProgressDialog();
+
+                if (!call.isCanceled()) {
+
+                    Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+
+
+    }
+
+    @OnClick(R.id.activity_gestionar_solicitud_btn_cancelar)
+    public void onClickBtnCancelar(final View view) {
+
+        if (DependenciaJudicialUtils.isConnected(ActivityGestionarSolicitud.this)) {
+
+
+            new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                    .title(strDialogoGeneralTitulo)
+                    .content(strDialogoCancelarContenido)
+                    .positiveText(strGeneralDialogoBtnConfirmar)
+                    .negativeText(strGeneralDialogoBtnVolver)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+
+                            String tToken = Preferences.getPreferences(ActivityGestionarSolicitud.this, SP_TOKEN);
+
+                            Integer iIDDJSolicitud = Integer.parseInt(Preferences.getPreferences(ActivityGestionarSolicitud.this, SP_IIDSOLICITUD_TEM));
+
+                            showProgressDialog(strProgressCancelar);
+
+                            apiService.CancelarSolicitud(tToken, iIDDJSolicitud).enqueue(new Callback<BasicRequestModel>() {
+                                @Override
+                                public void onResponse(Call<BasicRequestModel> call, Response<BasicRequestModel> response) {
+
+                                    dissProgressDialog();
+
+                                    if (response.isSuccessful()) {
+
+                                        if (response.code() != CODE_SESION_EXPIRE) {
+
+                                            if (response.body() != null && response.body().getToken() != null) {
+
+
+                                                switch (response.body().getResult()) {
+
+
+                                                    case 1:
+
+                                                        //mensaje de ok
+                                                        new MaterialDialog.Builder(ActivityGestionarSolicitud.this)
+                                                                .title(strDialogoGeneralTitulo)
+                                                                .content(strDialogoCancelarCancelado)
+                                                                .positiveText(strDialogoGeneralBtnok)
+                                                                .cancelable(false)
+                                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                    @Override
+                                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                                                        finish();
+                                                                    }
+                                                                })
+                                                                .show();
+
+                                                        break;
+
+                                                    case 2:
+
+                                                        Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                                                        break;
+                                                }
+
+
+                                            } else {
+                                                Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                                            }
+
+
+                                        } else {
+
+                                            Preferences.savePreferences(ActivityGestionarSolicitud.this, SP_TOKEN, "");
+                                            finish();
+                                        }
+
+                                    } else {
+
+                                        Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<BasicRequestModel> call, Throwable t) {
+                                    dissProgressDialog();
+
+                                    if (!call.isCanceled()) {
+
+                                        Snackbar.make(view, strGeneralSinConexionServidor, Snackbar.LENGTH_LONG).show();
+                                    }
+
+                                }
+                            });
+
+
+                        }
+                    })
+                    .show();
+
+
+        } else {
+
+            Snackbar.make(view, strGeneralSinConexion, Snackbar.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void getImages() {
+
+/*
+        Config config = new Config();
+
+        config.setToolbarTitleRes(R.string.activity_image_piker_str_tool_bar);
+        config.setCameraHeight(R.dimen.cameraheight);
+        //config.setCameraBtnBackground(R.color.colorPrimary);
+        ImagePickerActivity.setConfig(config);
+
+        Intent intent = new Intent(this, ImagePickerActivity.class);
+        startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);*/
+
+
+        ImagePicker.create(this) // Activity or Fragment
+                .folderMode(true) // folder mode (false by default)
+                .toolbarFolderTitle("Carpetas") // folder selection title
+                .toolbarImageTitle("Seleccionados") // image selection title
+
+                //.imageDirectory(Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).getPath())
+                .imageDirectory("DependenciaJudicial")
+                .theme(R.style.DependenciaJudicialTheme)
+
+                .start();
+        //
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resuleCode, Intent intent) {
+        super.onActivityResult(requestCode, resuleCode, intent);
+
+        Log.d(LOG_ACTIVITY,"requestCode:"+requestCode);
+        Log.d(LOG_ACTIVITY,"resuleCode:"+resuleCode);
+        Log.d(LOG_ACTIVITY," Activity.RESULT_OK:"+ Activity.RESULT_OK);
+
+        if ( resuleCode == Activity.RESULT_OK) {
+
+
+                List<Image> images = ImagePicker.getImages(intent);
+
+                if (images.size() != 0) {
+
+                    ArrayList<String> tempUris = new ArrayList<>();
+                    for (Image image : images) {
+
+                        Log.d(LOG_ACTIVITY,"image.getPath() : "+ image.getPath());
+
+                        tempUris.add(image.getPath());
+                    }
+
+                    CallbackCreatePdf callbackCreatePdf = new CallbackCreatePdf() {
+                        @Override
+                        public void OnCallbackCreatePdf(String tPath) {
+
+                            if (tPath != "") {
+
+                                Toast.makeText(getBaseContext(), "Pdf Creado", Toast.LENGTH_LONG).show();
+
+                                soportesModels = obtenerSoportesUsuarioSolicitud();
+                                getUpdateListSoportesModel();
+
+                            } else {
+                                Toast.makeText(getBaseContext(), "Error al crear el Pdf", Toast.LENGTH_LONG).show();
+                            }
+
+
+                        }
+                    };
+
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                            .title(strImagePikerDialogTitle)
+                            .content(strImagePikerDialogContent)
+                            .cancelable(false)
+                            .progress(true, 0);
+                    MaterialDialog dialog = builder.build();
+
+                    String tNombreArchivo = "Documento-" + (new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()));
+                    String tIDSolicitud = Preferences.getPreferences(this, SP_IIDSOLICITUD_TEM);
+
+                    AsynCreatePdf asynCreatePdf = new AsynCreatePdf(this, callbackCreatePdf, dialog, tempUris, tIDSolicitud, tNombreArchivo);
+
+                    asynCreatePdf.execute();
+
+
+                }
+
+
+
+
+            Log.d(LOG_ACTIVITY, "onActivityResult");
+        }
+        /*
+        else
+
+            if (requestCode == INTENT_REQUEST_GET_IMAGES && resuleCode == Activity.RESULT_OK) {
+
+            ArrayList<Uri> image_uris = intent.getParcelableArrayListExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+
+            if (image_uris.size() != 0) {
+
+                ArrayList<String> tempUris = new ArrayList<>();
+
+                for (Uri uri : image_uris) {
+
+                    tempUris.add(uri.getPath());
+                }
+
+                CallbackCreatePdf callbackCreatePdf = new CallbackCreatePdf() {
+                    @Override
+                    public void OnCallbackCreatePdf(String tPath) {
+
+                        if (tPath != "") {
+
+                            Toast.makeText(getBaseContext(), "Pdf Creado", Toast.LENGTH_LONG).show();
+
+                            soportesModels = obtenerSoportesUsuarioSolicitud();
+                            getUpdateListSoportesModel();
+
+                        } else {
+                            Toast.makeText(getBaseContext(), "Error al crear el Pdf", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                };
+
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                        .title(strImagePikerDialogTitle)
+                        .content(strImagePikerDialogContent)
+                        .cancelable(false)
+                        .progress(true, 0);
+                MaterialDialog dialog = builder.build();
+
+                String tNombreArchivo = "Documento-" + (new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()));
+                String tIDSolicitud = Preferences.getPreferences(this, SP_IIDSOLICITUD_TEM);
+
+                AsynCreatePdf asynCreatePdf = new AsynCreatePdf(this, callbackCreatePdf, dialog, tempUris, tIDSolicitud, tNombreArchivo);
+
+                asynCreatePdf.execute();
+            }
+
+            Log.d(LOG_ACTIVITY, "onActivityResult");
+
+        }*/
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_WRITE_EXTERNAL_STORAGE_RESULT: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getImages();
+                } else {
+                    Toast.makeText(this, strPermisosInsuficientes, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(LOG_ACTIVITY, "FragmentHistorialServicios onResume");
+
+        soportesModels = obtenerSoportesUsuarioSolicitud();
+        getUpdateListSoportesModel();
+        invalidateOptionsMenu();
+
+        savePreferences(this, SP_CURRENT_SCREEN, APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD);
+
+        if (!DependenciaJudicialUtils.isSesion(this)) {
+
+            Preferences.savePreferences(ActivityGestionarSolicitud.this, SP_TOKEN, "");
+            finish();
+
+        }
+    }
+
+    private void updateBadgeMenuChat(Menu menu) {
+
+
+        String iIDSolicitud = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_IIDSOLICITUD_TEM);
+
+        String srtExtraAddBagChat = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_EXTRA_ADD_BAG_ALERT_CHAT + "_" + iIDSolicitud);
+
+        if (srtExtraAddBagChat != null && !srtExtraAddBagChat.equals("") && !srtExtraAddBagChat.equals("0")) {
+
+            BadgeCounter.update(this,
+                    menu.findItem(R.id.menu_activity_gestionar_solicitud_item_mn_chat),
+                    R.drawable.ic_action_chat,
+                    BadgeCounter.BadgeColor.RED,
+                    Integer.parseInt(srtExtraAddBagChat));
+        } else {
+
+            BadgeCounter.update(this,
+                    menu.findItem(R.id.menu_activity_gestionar_solicitud_item_mn_chat),
+                    R.drawable.ic_action_chat,
+                    BadgeCounter.BadgeColor.RED,
+                    0);
+
+
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(LOG_ACTIVITY, "onDestroy");
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        savePreferences(ActivityGestionarSolicitud.this, SP_CURRENT_SCREEN, APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS);
+
+        Log.d(LOG_ACTIVITY, "onBackPressed");
+        finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+
+        savePreferences(ActivityGestionarSolicitud.this, SP_CURRENT_SCREEN, APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS);
+
+        Log.d(LOG_ACTIVITY, "onSupportNavigateUp");
+        finish();
+
+        return false;
+    }
+
+    @NonNull
+    private RequestBody createPartFromString(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
+    }
+
+    @NonNull
+    private MultipartBody.Part prepareFilePart(String partName, String fileUri) {
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        File file = new File(fileUri);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("*/*"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    private void setupProgressDialog() {
+
+        mdProgress = new MaterialDialog.Builder(this)
+                .progress(true, 0)
+                .cancelable(false)
+                .build();
+    }
+
+    private void showProgressDialog(String content) {
+        mdProgress.setContent(content);
+        mdProgress.show();
+    }
+
+    private void dissProgressDialog() {
+
+        if (mdProgress != null && mdProgress.isShowing())
+            mdProgress.dismiss();
+    }
+
+    // Metodos de ménu
+
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        Log.d(LOG_ACTIVITY,"onCreateOptionsMenu");
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_gestionar_solicitud, menu);
+
+        updateBadgeMenuChat(menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.menu_activity_gestionar_solicitud_item_mn_chat:
+
+                Log.d(LOG_ACTIVITY, "onOptionsItemSelected Filtrar");
+
+                //Ir a chat
+                startActivity(new Intent(this,ActivityChat.class));
+
+                break;
+
+            case android.R.id.home:
+
+                //back
+
+                NavUtils.navigateUpFromSameTask(this);
+
+                break;
+
+
+        }
+
+        return true;
+    }
+    */
+}

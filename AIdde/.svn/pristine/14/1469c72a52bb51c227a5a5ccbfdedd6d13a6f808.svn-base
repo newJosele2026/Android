@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_historial_servicios_card_contenido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="@drawable/drawable_layout_background_border"
+        app:cardElevation="@dimen/card_dimen_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/view_margin"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_fecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="@dimen/card_dimen_margin_padding"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                    android:layout_weight=".7"
+                    android:gravity="center"
+                    android:text="@string/item_historial_servicios_str_fecha"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/item_historial_servicios_diment_font_size_fecha" />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_tipo_servicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/item_historial_servicios_str_tipo_servicio"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/item_historial_servicios_dimen_font_size_tipo_servicio"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_numero_proceso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/item_historial_servicios_str_numero_proceso"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/item_historial_servicios_dimen_font_size_num_proceso" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_despacho"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin"
+                    android:text="@string/item_historial_servicios_str_despacho"
+                    android:gravity="center"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_ciudad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                    android:text="@string/item_historial_servicios_str_ciudad"
+                    android:gravity="center"
+                    android:textAlignment="center" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/item_historial_servicios_str_titulo_detalle"
+                    android:textColor="@color/colorAccent"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_margin"
+                android:layout_marginLeft="@dimen/view_margin"
+                android:layout_marginRight="@dimen/view_margin"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_detalle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/card_dimen_margin_padding"
+                    android:text="@string/item_historial_servicios_str_detalle" />
+
+            </LinearLayout>
+
+            <!--Estado -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/item_historial_servicios_str_titulo_estado"
+                    android:textColor="@color/colorAccent"
+
+                    />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_estado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <!-- Fechas -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_divider_height"
+                android:layout_margin="@dimen/view_margin"
+                android:background="?android:dividerHorizontal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/item_historial_servicios_str_fecha_asignacion"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_txt_fecha_asignacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/item_historial_servicios_str_fecha_cumplimiento"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_txt_fecha_cumplimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/item_historial_servicios_str_fecha_aprobacion"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_txt_fecha_aprobacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/view_margin"
+                android:layout_marginTop="@dimen/view_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/item_historial_servicios_str_fecha_pago"
+                    android:textColor="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/item_historial_servicios_txt_fecha_pago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/view_margin"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/item_historial_servicios_rb_calificacion"
+                    style="@style/Widget.MaterialRatingBar.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:numStars="5"
+                    android:isIndicator="true"
+                    android:saveEnabled="true"
+                    android:focusable="false"
+                    app:mrb_progressTint="@color/colorPrimary"
+                    app:mrb_indeterminateTintMode="@color/ratingBackgroundColor"
+                    app:mrb_progressBackgroundTint="@color/ratingBackgroundColor"
+
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

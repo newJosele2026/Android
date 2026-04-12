@@ -1,0 +1,737 @@
+package com.slt.dependenciajudicial.views.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.slt.dependenciajudicial.R;
+import com.slt.dependenciajudicial.app.Preferences;
+import com.slt.dependenciajudicial.app.database.tables.CiudadBD;
+import com.slt.dependenciajudicial.app.database.tables.DepartamentoBD;
+import com.slt.dependenciajudicial.app.database.tables.PaisBD;
+import com.slt.dependenciajudicial.requests.SOService;
+import com.slt.dependenciajudicial.requests.models.CiudadModel;
+import com.slt.dependenciajudicial.requests.models.DepartamentoModel;
+import com.slt.dependenciajudicial.requests.models.ListDivipolaModel;
+import com.slt.dependenciajudicial.requests.models.PaisModel;
+import com.slt.dependenciajudicial.requests.settings.ApiUtils;
+import com.slt.dependenciajudicial.utils.DependenciaJudicialUtils;
+import com.slt.dependenciajudicial.views.fragments.FragmentAcercaDe;
+import com.slt.dependenciajudicial.views.fragments.FragmentCrearSolicitud;
+import com.slt.dependenciajudicial.views.fragments.FragmentHistorialServicios;
+import com.slt.dependenciajudicial.views.fragments.FragmentPerfil;
+import com.slt.dependenciajudicial.views.fragments.FragmentServiciosAceptados;
+import com.slt.dependenciajudicial.views.fragments.FragmentServiciosDisponibles;
+import com.slt.dependenciajudicial.views.fragments.FragmentServiciosMasivos;
+
+import java.util.List;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.slt.dependenciajudicial.app.Preferences.getPreferencesContext;
+import static com.slt.dependenciajudicial.app.Preferences.savePreferences;
+import static com.slt.dependenciajudicial.app.Preferences.savePreferencesContext;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_CHAT;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_CREAR_SOLICITUD;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS;
+//import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_BVERSION;
+import static com.slt.dependenciajudicial.utils.DependenciaJudicialUtils.SP_CURRENT_SCREEN;
+
+/**
+ * Created by Nelsy Acuña on 16/11/2017.
+ */
+
+public class ActivityHome extends AppCompatActivity {
+
+    private static final String LOG_ACTIVITY = "ActivityHome";
+
+    //region Init Views
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.navview)
+    NavigationView navView;
+
+
+    //endregion
+
+    //region Init String
+
+
+    @BindString(R.string.general_sin_notificaciones)
+    String strGeneralSinNotificaciones;
+
+    @BindString(R.string.general_dialogo_titulo)
+    String strDialogoTitulo;
+
+    @BindString(R.string.general_dialogo_btn_salir)
+    String strDialogoBtnSalir;
+
+    @BindString(R.string.general_dialogo_salir)
+    String strDialogoTextSalir;
+
+    @BindString(R.string.general_dialogo_btn_volver)
+    String strDialogoBtnVolver;
+
+    @BindString(R.string.update_snackbar_content)
+    String strSnackbarUpdate;
+
+    @BindString(R.string.general_sin_conexion_servidor)
+    String strGeneralSinConexionServidor;
+
+    private SOService apiService;
+    private ActivityHome activity;
+    private MaterialDialog mdProgress;
+
+    //endregion
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+        activity = this;
+        setupMenu();
+        apiService = ApiUtils.getSOService();
+        setupDrawerHeader();
+        Log.d(LOG_ACTIVITY, " onCreate ");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+    //    if(getPreferencesContext(this, SP_BVERSION).equals("0") ){
+
+
+
+
+      //  }
+        Log.d(LOG_ACTIVITY, " onResume ");
+
+        int iIDTipoUsuario = Integer.parseInt(Preferences.getPreferences(ActivityHome.this, DependenciaJudicialUtils.SP_ID_TIPO_USUARIO));
+
+        switch (iIDTipoUsuario) {
+
+            case 1:
+
+                //validar si hay que mostrar count en el menu de servicios disponibles
+                setupMenuCountServicioDisponible();
+                setMenuCountServiciosAceptados();
+                setupMenuCountServicioDisponibleMasivo();
+                setupMsmSinNotificaciones();
+
+                break;
+            case 2:
+
+                break;
+        }
+
+
+        Preferences.savePreferences(this, DependenciaJudicialUtils.SP_APP_STATE, DependenciaJudicialUtils.APP_STATE_ON);
+
+
+        if (!DependenciaJudicialUtils.isSesion(this)) {
+
+            Toast.makeText(getBaseContext(), R.string.general_sesion_finalizada, Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, ActivityLogin.class));
+            finish();
+        }
+
+
+    }
+
+    private void setupMsmSinNotificaciones() {
+
+        if (Preferences.getPreferences(this, DependenciaJudicialUtils.SP_NOTIFICACIONES).equals("0")) {
+
+            Toast.makeText(getApplicationContext(), strGeneralSinNotificaciones, Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d(LOG_ACTIVITY, "onSaveInstanceState");
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        Log.d(LOG_ACTIVITY, "onNewIntent ");
+        if (extras != null && extras.size() != 0) {
+
+            Log.d(LOG_ACTIVITY, "La aplicacion inicio con datos de entrada");
+
+            if (!DependenciaJudicialUtils.isSesion(this)) {
+
+                Toast.makeText(getBaseContext(), R.string.general_sesion_finalizada, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, ActivityLogin.class));
+                finish();
+
+            } else {
+
+                final String tPantalla = extras.getString(SP_CURRENT_SCREEN);
+
+
+                Log.d(LOG_ACTIVITY, "onNewIntent:tPantalla = " + tPantalla);
+
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        // UI code here
+                        setupFragmentStart(tPantalla);
+
+                    }
+                };
+                Handler h = new Handler();
+                h.post(r);
+
+                // setupFragmentStart();
+
+
+                //savePreferences(this, SP_CURRENT_SCREEN, tPantalla);
+
+              /*  if( Preferences.getPreferences(this, SP_CURRENT_SCREEN).equals(APP_SCREEN_ACTIVITY_CHAT )){
+
+                    savePreferences(this, SP_CURRENT_SCREEN, APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS);
+                   // setupFragmentStart();
+
+                }else if(Preferences.getPreferences(this, SP_CURRENT_SCREEN).equals(APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD )){
+
+                    savePreferences(this, SP_CURRENT_SCREEN, APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS);
+                    //setupFragmentStart();
+
+                }else{
+
+                    setupFragmentStart();
+                }*/
+
+
+            }
+        }
+
+        Log.d(LOG_ACTIVITY, extras != null ? "Bundle # " + extras.size() + " " + DependenciaJudicialUtils.bundle2string(extras) : "No Bundle");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Preferences.savePreferences(this, DependenciaJudicialUtils.SP_APP_STATE, DependenciaJudicialUtils.APP_STATE_OFF);
+        Log.d(LOG_ACTIVITY, " onPause ");
+
+    }
+
+    public void setupMenu() {
+
+
+        int iIDTipoUsuario = Integer.parseInt(Preferences.getPreferences(ActivityHome.this, DependenciaJudicialUtils.SP_ID_TIPO_USUARIO));
+
+
+        //Decidir que menu se carga segun el tipo de usuario
+        switch (iIDTipoUsuario) {
+
+            case 1:
+
+                navView.getMenu().clear();
+                navView.inflateMenu(R.menu.menu_navigation_drawer_dependiente);
+                break;
+            case 2:
+
+                navView.getMenu().clear();
+                navView.inflateMenu(R.menu.menu_navigation_drawer_solicitante);
+                break;
+
+
+            default:
+
+                navView.getMenu().clear();
+                navView.inflateMenu(R.menu.menu_navigation_drawer);
+                break;
+        }
+
+
+        //Evento sobre los item del menu selecccionados
+        navView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        int iIDPerfil = Integer.parseInt(Preferences.getPreferences(ActivityHome.this, DependenciaJudicialUtils.SP_ID_TIPO_USUARIO));
+
+                        switch (iIDPerfil) {
+                            case 1:
+                                setupDependienteMenuItemSelected(menuItem);
+                                break;
+                            case 2:
+                                setupSolicitanteMenuItemSelected(menuItem);
+                                break;
+
+                            default:
+                                // setupMenuItemSelected(menuItem);
+                                break;
+                        }
+
+                        return true;
+                    }
+                });
+
+        setupFragmentStart();
+
+
+    }
+
+    //Eventos de los menus del tipo de usuario solicitante
+    private void setupSolicitanteMenuItemSelected(MenuItem menuItem) {
+
+        int id = menuItem.getItemId();
+        boolean fragmentTransaction = false;
+        Fragment fragment = null;
+
+        switch (id) {
+
+            case R.id.menu_solicitante_item_mn_crear:
+
+                fragment = new FragmentCrearSolicitud();
+                fragmentTransaction = true;
+
+                break;
+
+            case R.id.menu_solicitante_item_mn_configuracion:
+
+                fragment = new FragmentPerfil();
+                fragmentTransaction = true;
+
+                break;
+            case R.id.menu_solicitante_item_mn_acerca_de:
+
+                fragment = new FragmentAcercaDe();
+                fragmentTransaction = true;
+
+                break;
+
+            case R.id.menu_solicitante_item_mn_exit:
+
+                Preferences.clearPreferences(ActivityHome.this);
+                finish();
+                break;
+
+
+        }
+
+        if (fragmentTransaction) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
+            menuItem.setChecked(true);
+
+        }
+        drawerLayout.closeDrawers();
+    }
+
+    //Eventos de los menus del tipo de usuario dependiente
+    private void setupDependienteMenuItemSelected(MenuItem menuItem) {
+
+        int id = menuItem.getItemId();
+        boolean fragmentTransaction = false;
+        Fragment fragment = null;
+
+        switch (id) {
+
+            case R.id.menu_dependiente_item_mn_servicios_disponibles:
+
+                fragment = new FragmentServiciosDisponibles();
+                fragmentTransaction = true;
+                break;
+
+            case R.id.menu_dependiente_item_mn_servicios_evento_procesal_masivo:
+
+                fragment = new FragmentServiciosMasivos();
+                fragmentTransaction = true;
+                break;
+
+
+            case R.id.menu_dependiente_item_mn_servicios_aceptados:
+
+                fragment = new FragmentServiciosAceptados();
+                fragmentTransaction = true;
+                break;
+
+            case R.id.menu_dependiente_item_mn_servicios_historicos:
+
+                fragment = new FragmentHistorialServicios();
+                fragmentTransaction = true;
+                break;
+
+            case R.id.menu_dependiente_item_mn_perfil:
+
+                fragment = new FragmentPerfil();
+                fragmentTransaction = true;
+                break;
+
+
+            case R.id.menu_dependiente_item_mn_acerca_de:
+
+                fragment = new FragmentAcercaDe();
+                fragmentTransaction = true;
+
+                break;
+            case R.id.menu_dependiente_item_mn_exit:
+
+                //mostrar alerta
+
+                new MaterialDialog.Builder(this)
+                        .title(strDialogoTitulo)
+                        .content(strDialogoTextSalir)
+                        .positiveText(strDialogoBtnSalir)
+                        .negativeText(strDialogoBtnVolver)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                // Salir del App
+
+                                Preferences.clearPreferences(ActivityHome.this);
+                                finish();
+
+                            }
+                        })
+                        .show();
+
+
+                break;
+
+
+        }
+
+        if (fragmentTransaction) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
+            menuItem.setChecked(true);
+
+        }
+
+        drawerLayout.closeDrawers();
+    }
+
+    private void setupMenuCountServicioDisponible() {
+
+        Log.d(LOG_ACTIVITY, " onResume - setupMenuCountServicioDisponible");
+
+        String srtExtraAddBagAlertSolicitudServicio = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_EXTRA_ADD_BAG_ALERT_SOLICITUD_SERVICIO);
+
+
+        if (srtExtraAddBagAlertSolicitudServicio != null && !srtExtraAddBagAlertSolicitudServicio.equals("")) {
+
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_disponibles, srtExtraAddBagAlertSolicitudServicio);
+
+        } else {
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_disponibles, "");
+            Log.d(LOG_ACTIVITY, " onResume setupMenuCountServicioDisponible sin pendientes");
+        }
+
+
+    }
+
+    private void setupMenuCountServicioDisponibleMasivo() {
+
+        Log.d(LOG_ACTIVITY, " onResume - setupMenuCountServicioDisponible");
+
+        String srtExtraAddBagAlertSolicitudServicio = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_EXTRA_ADD_BAG_ALERT_SOLICITUD_SERVICIO_MASIVO);
+
+
+        if (srtExtraAddBagAlertSolicitudServicio != null && !srtExtraAddBagAlertSolicitudServicio.equals("")) {
+
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_evento_procesal_masivo, srtExtraAddBagAlertSolicitudServicio);
+
+        } else {
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_evento_procesal_masivo, "");
+            Log.d(LOG_ACTIVITY, " onResume setupMenuCountServicioDisponible sin pendientes");
+        }
+
+
+    }
+
+
+
+    private void setMenuCountServiciosAceptados() {
+
+        Log.d(LOG_ACTIVITY, " onResume - setMenuCountServiciosAceptados");
+
+        String srtExtraAddBagAlertAceptacionServicio = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_EXTRA_ADD_BAG_ALERT_ACEPTACION_SERVICIO);
+
+        if (srtExtraAddBagAlertAceptacionServicio != null && !srtExtraAddBagAlertAceptacionServicio.equals("")) {
+
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_aceptados, srtExtraAddBagAlertAceptacionServicio);
+
+        } else {
+            DependenciaJudicialUtils.showMenuCountBag(this, navView, R.id.menu_dependiente_item_mn_servicios_aceptados, "");
+            Log.d(LOG_ACTIVITY, " onResume setupMenuCountServicioDisponible sin pendientes");
+        }
+
+
+    }
+
+    public void setupDrawerHeader() {
+        View header = navView.getHeaderView(0);
+        TextView txtUser = header.findViewById(R.id.header_nav_home_txt_user);
+        TextView txtPerfil = header.findViewById(R.id.header_nav_home_txt_perfil);
+
+        txtUser.setText(Preferences.getPreferences(this, DependenciaJudicialUtils.SP_PRIMER_NOMBRE) + " " + Preferences.getPreferences(this, DependenciaJudicialUtils.SP_PRIMER_APELLIDO));
+        txtPerfil.setText(Preferences.getPreferences(this, DependenciaJudicialUtils.SP_TIPO_USUARIO));
+
+    }
+
+    private void setupFragmentStart() {
+
+        Fragment fragment = null;
+
+        String strPantallaActual = Preferences.getPreferences(this, DependenciaJudicialUtils.SP_CURRENT_SCREEN);
+
+        int iIDTipoUsuario = Integer.parseInt(Preferences.getPreferences(ActivityHome.this, DependenciaJudicialUtils.SP_ID_TIPO_USUARIO));
+
+        switch (iIDTipoUsuario) {
+
+            case 1: // Dependiente
+
+                //region Perfil dependiente
+
+                if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_DISPONIBLES)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_disponibles);
+                    fragment = new FragmentServiciosDisponibles();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentServiciosDisponibles ");
+
+
+                } else if (strPantallaActual.equals(APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS) ||
+                        strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD) ||
+                        strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_CHAT)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_aceptados);
+                    fragment = new FragmentServiciosAceptados();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentServiciosAceptados ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_HISTORIAL_SERVICIOS)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_historicos);
+                    fragment = new FragmentHistorialServicios();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentHistorialServicios ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_PERFIL)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_perfil);
+                    fragment = new FragmentPerfil();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  FragmentPerfil ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_ACERCA_DE)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_acerca_de);
+                    fragment = new FragmentAcercaDe();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  Acerca de  ");
+
+                }else if(strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_MASIVOS)){
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_evento_procesal_masivo);
+                    fragment = new FragmentServiciosMasivos();
+                }
+                //endregion
+
+                break;
+            case 2: // Solicitante
+
+                //region Perfil Solicitud
+                if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_CREAR_SOLICITUD)) {
+
+                    navView.setCheckedItem(R.id.menu_solicitante_item_mn_crear);
+                    fragment = new FragmentCrearSolicitud();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart Fragment Crear Solicitud ");
+
+                }else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_PERFIL)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_perfil);
+                    fragment = new FragmentPerfil();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  FragmentPerfil ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_ACERCA_DE)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_acerca_de);
+                    fragment = new FragmentAcercaDe();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  Acerca de  ");
+
+                }
+                //endregion
+
+                break;
+        }
+
+
+
+
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
+        }
+
+        drawerLayout.closeDrawers();
+
+    }
+
+    private void setupFragmentStart(String tPantalla) {
+
+        Fragment fragment = null;
+
+        String strPantallaActual = tPantalla;
+
+        int iIDTipoUsuario = Integer.parseInt(Preferences.getPreferences(ActivityHome.this, DependenciaJudicialUtils.SP_ID_TIPO_USUARIO));
+
+        switch (iIDTipoUsuario) {
+
+            case 1: // Dependiente
+
+                //region Perfil Dependiente
+
+                if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_DISPONIBLES)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_disponibles);
+                    fragment = new FragmentServiciosDisponibles();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentServiciosDisponibles ");
+
+
+                } else if (strPantallaActual.equals(APP_SCREEN_FRAGMENT_SERVICIOS_ACEPTADOS) ||
+                        strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_GESTIONAR_SOLICITUD) ||
+                        strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_ACTIVITY_CHAT)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_aceptados);
+                    fragment = new FragmentServiciosAceptados();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentServiciosAceptados ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_HISTORIAL_SERVICIOS)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_historicos);
+                    fragment = new FragmentHistorialServicios();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart FragmentHistorialServicios ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_PERFIL)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_perfil);
+                    fragment = new FragmentPerfil();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  FragmentPerfil ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_ACERCA_DE)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_acerca_de);
+                    fragment = new FragmentAcercaDe();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  Acerca de  ");
+
+                }else if(strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_SERVICIOS_MASIVOS)){
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_servicios_evento_procesal_masivo);
+                    fragment = new FragmentServiciosMasivos();
+                }
+                //endregion
+
+                break;
+            case 2: // Solicitante
+
+                //region Perfil Solicitante
+
+                if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_CREAR_SOLICITUD)) {
+
+                    navView.setCheckedItem(R.id.menu_solicitante_item_mn_crear);
+                    fragment = new FragmentCrearSolicitud();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart Fragment Crear Solicitud ");
+
+                }else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_PERFIL)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_perfil);
+                    fragment = new FragmentPerfil();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  FragmentPerfil ");
+
+                } else if (strPantallaActual.equals(DependenciaJudicialUtils.APP_SCREEN_FRAGMENT_ACERCA_DE)) {
+
+                    navView.setCheckedItem(R.id.menu_dependiente_item_mn_acerca_de);
+                    fragment = new FragmentAcercaDe();
+
+                    Log.d(LOG_ACTIVITY, " setupFragmentStart  Acerca de  ");
+
+                }
+
+                //endregion
+
+                break;
+        }
+
+        savePreferences(this, SP_CURRENT_SCREEN, tPantalla);
+
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+
+        }
+
+        drawerLayout.closeDrawers();
+
+    }
+
+
+    private void showProgressDialog(String content) {
+        mdProgress.setContent(content);
+        mdProgress.show();
+    }
+
+    private void dissProgressDialog() {
+
+        if (mdProgress != null && mdProgress.isShowing())
+            mdProgress.dismiss();
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="colorPrimary">#009688</color>
+        <color name="colorPrimaryDark">#00796b</color>
+        <color name="colorAccent">#607d8b</color>
+        <color name="textColorPrimary">#ffffff</color>
+        <color name="textColor">#212121</color>
+        <color name="textColorSecondary">#757575</color>
+        <color name="windowBackground">#ffffff</color>
+        <color name="dividerColor">#BDBDBD</color>
+        <color name="colorError">#FF0000</color>
+        <color name="colorOk">#00FF00</color>
+        <color name="ratingBackgroundColor">#cccccc</color>
+    <color name="color_expansion_panel_txt">#AAA</color>
+    <color name="txt_view_background_color">#ffffff</color>
+</resources>

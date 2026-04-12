@@ -1,0 +1,271 @@
+package com.slt.dependenciajudicial.requests.models;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+/**
+ * Created by Nelsy Acuña on 22/11/2017.
+ */
+
+public class SolicitudModel {
+
+    @SerializedName("iIDSolicitud")
+    @Expose
+    private Integer iIDSolicitud;
+
+    @SerializedName("tNombreSolicitud")
+    @Expose
+    private String tNombreSolicitud;
+
+    @SerializedName("iIDTipoSolicitud")
+    @Expose
+    private Integer iIDTipoSolicitud;
+
+    @SerializedName("tCiudad")
+    @Expose
+    private String tCiudad;
+
+    @SerializedName("tDespacho")
+    @Expose
+    private String tDespacho;
+
+    @SerializedName("tNumeroProceso")
+    @Expose
+    private String tNumeroProceso;
+
+    @SerializedName("tDescripcionSolicitud")
+    @Expose
+    private String tDescripcionSolicitud;
+
+    @SerializedName("dtFechaSolicitud")
+    @Expose
+    private String dtFechaSolicitud;
+
+    @SerializedName("tEstadoSolicitud")
+    @Expose
+    private String tEstadoSolicitud;
+
+    @SerializedName("listSolicitudSoportes")
+    @Expose
+    private List<SoportesModel> listSoporteModel;
+
+    @SerializedName("dtFechaAsignacionSolicitud")
+    @Expose
+    private String dtFechaAsignacionSolicitud;
+
+    @SerializedName("dtFechaCumplimientoSolicitud")
+    @Expose
+    private String dtFechaCumplimientoSolicitud;
+
+    @SerializedName("dtFechaAprobacionSolicitud")
+    @Expose
+    private String dtFechaAprobacionSolicitud;
+
+    @SerializedName("dtFechaPagoSolicitud")
+    @Expose
+    private String dtFechaPagoSolicitud;
+
+
+    @SerializedName("iTiempoSolicitud")
+    @Expose
+    private Integer iTiempoSolicitud;
+
+    @SerializedName("tUnidadTiempoSolicitud")
+    @Expose
+    private String tUnidadTiempoSolicitud;
+
+    @SerializedName("tiIDUnidadTiempo")
+    @Expose
+    private String tiIDUnidadTiempo;
+
+    @SerializedName("tUnidadTiempoSolicitudDependiente")
+    @Expose
+    private String tUnidadTiempoSolicitudDependiente;
+
+    @SerializedName("tiIDUnidadTiempoDependiente")
+    @Expose
+    private String tiIDUnidadTiempoDependiente;
+
+    @SerializedName("iTiempoSolicitudDependiente")
+    @Expose
+    private Integer iTiempoSolicitudDependiente;
+
+    @SerializedName("dCalificacion")
+    @Expose
+    private String dCalificacion;
+
+    //region Get and Set
+
+
+    public String getTiIDUnidadTiempo() {
+        return tiIDUnidadTiempo;
+    }
+
+    public void setTiIDUnidadTiempo(String tiIDUnidadTiempo) {
+        this.tiIDUnidadTiempo = tiIDUnidadTiempo;
+    }
+
+    public Integer getIIDSolicitud() {
+        return iIDSolicitud;
+    }
+
+    public void setIIDSolicitud(Integer iIDSolicitud) {
+        this.iIDSolicitud = iIDSolicitud;
+    }
+
+    public String getTNombreSolicitud() {
+        return tNombreSolicitud;
+    }
+
+    public void setTNombreSolicitud(String tNombreSolicitud) {
+        this.tNombreSolicitud = tNombreSolicitud;
+    }
+
+    public Integer getIIDTipoSolicitud() {
+        return iIDTipoSolicitud;
+    }
+
+    public void setIIDTipoSolicitud(Integer iIDTipoSolicitud) {
+        this.iIDTipoSolicitud = iIDTipoSolicitud;
+    }
+
+    public String getTCiudad() {
+        return tCiudad;
+    }
+
+    public void setTCiudad(String tCiudad) {
+        this.tCiudad = tCiudad;
+    }
+
+    public String getTDespacho() {
+        return tDespacho;
+    }
+
+    public void setTDespacho(String tDespacho) {
+        this.tDespacho = tDespacho;
+    }
+
+    public String getTNumeroProceso() {
+        return tNumeroProceso;
+    }
+
+    public void setTNumeroProceso(String tNumeroProceso) {
+        this.tNumeroProceso = tNumeroProceso;
+    }
+
+    public String getTDescripcionSolicitud() {
+        return tDescripcionSolicitud;
+    }
+
+    public void setTDescripcionSolicitud(String tDescripcionSolicitud) {
+        this.tDescripcionSolicitud = tDescripcionSolicitud;
+    }
+
+    public String getDtFechaSolicitud() {
+        return dtFechaSolicitud;
+    }
+
+    public void setDtFechaSolicitud(String dtFechaSolicitud) {
+        this.dtFechaSolicitud = dtFechaSolicitud;
+    }
+
+    public List<SoportesModel> getListSoporteModel() {
+        return listSoporteModel;
+    }
+
+    public void setListSoporteModel(List<SoportesModel> listSoporteModel) {
+        this.listSoporteModel = listSoporteModel;
+    }
+
+    public String gettEstadoSolicitud() {
+        return tEstadoSolicitud;
+    }
+
+    public void settEstadoSolicitud(String tEstadoSolicitud) {
+        this.tEstadoSolicitud = tEstadoSolicitud;
+    }
+
+    public String getDtFechaAsignacionSolicitud() {
+        return dtFechaAsignacionSolicitud;
+    }
+
+    public void setDtFechaAsignacionSolicitud(String dtFechaAsignacionSolicitud) {
+        this.dtFechaAsignacionSolicitud = dtFechaAsignacionSolicitud;
+    }
+
+    public String getDtFechaCumplimientoSolicitud() {
+        return dtFechaCumplimientoSolicitud;
+    }
+
+    public void setDtFechaCumplimientoSolicitud(String dtFechaCumplimientoSolicitud) {
+        this.dtFechaCumplimientoSolicitud = dtFechaCumplimientoSolicitud;
+    }
+
+    public String getDtFechaAprobacionSolicitud() {
+        return dtFechaAprobacionSolicitud;
+    }
+
+    public void setDtFechaAprobacionSolicitud(String dtFechaAprobacionSolicitud) {
+        this.dtFechaAprobacionSolicitud = dtFechaAprobacionSolicitud;
+    }
+
+    public String getDtFechaPagoSolicitud() {
+        return dtFechaPagoSolicitud;
+    }
+
+    public void setDtFechaPagoSolicitud(String dtFechaPagoSolicitud) {
+        this.dtFechaPagoSolicitud = dtFechaPagoSolicitud;
+    }
+
+    public Integer getiTiempoSolicitud() {
+        return iTiempoSolicitud;
+    }
+
+    public void setiTiempoSolicitud(Integer iTiempoSolicitud) {
+        this.iTiempoSolicitud = iTiempoSolicitud;
+    }
+
+    public String gettUnidadTiempoSolicitud() {
+        return tUnidadTiempoSolicitud;
+    }
+
+    public void settUnidadTiempoSolicitud(String tUnidadTiempoSolicitud) {
+        this.tUnidadTiempoSolicitud = tUnidadTiempoSolicitud;
+    }
+
+    public String gettUnidadTiempoSolicitudDependiente() {
+        return tUnidadTiempoSolicitudDependiente;
+    }
+
+    public void settUnidadTiempoSolicitudDependiente(String tUnidadTiempoSolicitudDependiente) {
+        this.tUnidadTiempoSolicitudDependiente = tUnidadTiempoSolicitudDependiente;
+    }
+
+    public String getTiIDUnidadTiempoDependiente() {
+        return tiIDUnidadTiempoDependiente;
+    }
+
+    public void setTiIDUnidadTiempoDependiente(String tiIDUnidadTiempoDependiente) {
+        this.tiIDUnidadTiempoDependiente = tiIDUnidadTiempoDependiente;
+    }
+
+    public Integer getiTiempoSolicitudDependiente() {
+        return iTiempoSolicitudDependiente;
+    }
+
+    public void setiTiempoSolicitudDependiente(Integer iTiempoSolicitudDependiente) {
+        this.iTiempoSolicitudDependiente = iTiempoSolicitudDependiente;
+    }
+
+    public String getdCalificacion() {
+        return dCalificacion;
+    }
+
+    public void setdCalificacion(String dCalificacion) {
+        this.dCalificacion = dCalificacion;
+    }
+
+    //endregion
+}

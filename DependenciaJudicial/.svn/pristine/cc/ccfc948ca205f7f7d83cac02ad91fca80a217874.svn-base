@@ -1,0 +1,50 @@
+package com.slt.dependenciajudicial.requests.settings;
+
+
+import com.mancj.materialsearchbar.adapter.DefaultSuggestionsAdapter;
+import com.slt.dependenciajudicial.requests.SOService;
+
+/**
+ * Created by Sergio on 25/10/2017.
+ */
+
+public class ApiUtils {
+
+    //CODE SESSION EXPIRE
+
+    public static  final  Integer CODE_SESION_EXPIRE=429;
+
+    //URLS API
+    public static final String PRODUCCION_BASE_URL = "http://192.168.200.119:45457/DependenciaJudicialApi/";
+    //public static final String PRODUCCION_BASE_URL = "http://dependenciajudicial.prozesslaw.com/DependenciaJudicialApi/";
+    public static final String REGISTRO_URL = "Usuario/Registro";
+    public static final String AUTHENTICATION_URL = "Usuario/Authentication";
+    public static final String RECUPERAR_PASS_URL= "Usuario/RecuperarPass";
+    public static final String ACTUALIZAR_USUARIO_URL= "Usuario/ActualizarUsuario";
+    public static final String ACTUALIZAR_TOKEN_DISPOSITIVO_URL= "Usuario/ActualizarTokenDispositivo";
+    public static final String ACTUALIZAR_NOTIFICACION = "Usuario/ActualizarNotificacion";
+    public static final String SOLICITUDES_ESTADO_NOTIFICADO_ACEPTADO= "Solicitudes/SolicitudesEstadoNotificadoAceptado";
+    public static final String ACEPTAR_SOLICITUD= "Solicitudes/AceptarSolicitud";
+    public static final String SOLICITUDES_ASIGNADAS= "Solicitudes/SolicitudesAsignadas";
+    public static final String CUMPLIR_SOLICITUD= "Solicitudes/CumplirSolicitud";
+    public static final String HISTORIAL_SOLICITUDES ="Solicitudes/HistorialSolicitudes" ;
+    public static final String CANCELAR_SOLICITUD ="Solicitudes/CancelarSolicitud" ;
+    public static final String NOMBRES_FUENTES_EXTERNAS = "FuenteExterna/NombreFuenteExterna";
+
+
+    public static final String GET_USER_DATA_LOGIN = "Usuario/GetUserDataLogin";
+    public static final String GET_CASOS_ENTIDAD= "Caso/GetCasosEntidad/{iIDEntidadEnc}/{iIDCasoEnc}";
+
+    //Request
+    public static final long READ_TIME_OUT = 60;
+    public static final long CONNECT_TIME_OUT = 60;
+
+    //File URL
+    public static final String URL_FILES_SERVER = "http://192.168.200.115:45456/files/";
+
+    public static SOService getSOService() {
+        return RetrofitClient.getClient(PRODUCCION_BASE_URL).create(SOService.class);
+    }
+
+
+}
